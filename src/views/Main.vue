@@ -15,7 +15,7 @@
               <div class="carousel-item active">
                 <img
                   class="d-block w-100"
-                  src="/img/27858.jpg"
+                  src="/img/carousel.jpg"
                   alt="First slide"
                 />
               </div>
