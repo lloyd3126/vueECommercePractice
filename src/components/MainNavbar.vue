@@ -3,7 +3,12 @@
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
       <div class="container">
         <a href="/#/" class="text-dark d-flex align-items-center"
-          ><img src="/img/logo.png" alt="" srcset="" width="158" class="mr-2"
+          ><img
+            src="/${process.env.VUE_APP_REPONAME}/img/logo.png"
+            alt=""
+            srcset=""
+            width="158"
+            class="mr-2"
         /></a>
         <div
           id="navbarSupportedContent"

@@ -15,7 +15,7 @@
               <div class="carousel-item active">
                 <img
                   class="d-block w-100"
-                  src="/img/carousel.jpg"
+                  src="/${process.env.VUE_APP_REPONAME}/img/carousel.jpg"
                   alt="First slide"
                 />
               </div>
@@ -450,7 +450,7 @@
           >
             <div class="col-12 col-md-6 text-center">
               <img
-                src="/img/coupon.png"
+                src="/${process.env.VUE_APP_REPONAME}/img/coupon.png"
                 class="img-fluid coupon-img mb-3"
                 alt="Responsive image"
                 v-clipboard="value"
