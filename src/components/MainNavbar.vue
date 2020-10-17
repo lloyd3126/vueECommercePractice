@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
       <div class="container">
-        <a href="/#/" class="text-dark d-flex align-items-center"
+        <a :href="`${publicPath}#/`" class="text-dark d-flex align-items-center"
           ><img
             :src="`${publicPath}img/logo.png`"
             alt=""
@@ -17,7 +17,7 @@
           <ul class="navbar-nav">
             <li class="nav-item">
               <a
-                href="/#/login"
+                :href="`${publicPath}#/admin/products`"
                 class="mx-2 link-hover font-weight-bold text-dark nav-link "
                 >商品管理</a
               >

@@ -517,7 +517,7 @@ export default {
           this.$http.post(api, data).then((response) => {
             const { success } = response.data;
             if (success) {
-              console.log(response);
+              // console.log(response);
               $('#couponModal').modal('hide');
               this.cleanModalInput();
               this.getCoupons();

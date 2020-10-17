@@ -426,7 +426,7 @@ export default {
     },
     openModal(item) {
       this.tempOrder = item;
-      console.log(this.tempOrder);
+      // console.log(this.tempOrder);
       $('#orderModal').modal('show');
     },
     updateOrder(item) {
@@ -473,7 +473,7 @@ export default {
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/orders?page=${vm.currentPage}`;
       vm.$http.get(api).then((response) => {
-        console.log(response);
+        // console.log(response);
         vm.orders = response.data.orders;
         vm.pagination = { ...response.data.pagination };
         vm.isLoading = false;

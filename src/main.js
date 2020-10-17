@@ -43,9 +43,9 @@ router.beforeEach((to, from, next) => {
   //   console.log(to.matched[1].path.replace('/admin/', ''));
   // }
   const { requiresAuth } = to.meta;
-  console.log(requiresAuth);
+  // console.log(requiresAuth);
   if (requiresAuth) {
-    console.log('這裡需要驗證');
+    // console.log('這裡需要驗證');
     const api = `${process.env.VUE_APP_APIPATH}/api/user/check`;
     const vm = this;
     axios.post(api).then((response) => {

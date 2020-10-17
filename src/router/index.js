@@ -9,7 +9,7 @@ import Coupons from '../views/Coupons.vue';
 import CustomerOrder from '../views/CustomerOrder.vue';
 import CustomerCheckout from '../views/CustomerCheckout.vue';
 import Main from '../views/Main.vue';
-
+import VueConfig from '../../vue.config.js';
 
 Vue.use(VueRouter);
 
@@ -71,7 +71,8 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'hash', //history
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL
+  base: VueConfig.publicPath,
   routes,
 });
 

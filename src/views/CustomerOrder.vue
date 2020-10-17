@@ -386,7 +386,7 @@ export default {
       this.$http.get(api).then((response) => {
         const { products, success } = response.data;
         if (success) {
-          console.log(products);
+          // console.log(products);
           let newList = {};
           products.forEach((product) => {
             if (product.is_enabled) {

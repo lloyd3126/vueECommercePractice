@@ -91,7 +91,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${this.orderId}`;
       vm.isLoading = true;
       vm.$http.get(api).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         const { order, success } = response.data;
         if (success) {
           // console.log(order);
@@ -105,7 +105,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${this.orderId}`;
       vm.isLoading = true;
       vm.$http.post(api).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         const { message, success } = response.data;
         if (success) {
           vm.$bus.$emit('message:push', message, 'success');
