@@ -15,7 +15,7 @@
               <div class="carousel-item active">
                 <img
                   class="d-block w-100"
-                  src="/${process.env.VUE_APP_REPONAME}/img/carousel.jpg"
+                  :src="`${publicPath}img/carousel.png`"
                   alt="First slide"
                 />
               </div>
@@ -450,7 +450,7 @@
           >
             <div class="col-12 col-md-6 text-center">
               <img
-                src="/${process.env.VUE_APP_REPONAME}/img/coupon.png"
+                :src="`${publicPath}img/coupon.png`"
                 class="img-fluid coupon-img mb-3"
                 alt="Responsive image"
                 v-clipboard="value"
@@ -586,6 +586,7 @@ export default {
   },
   data() {
     return {
+      publicPath: process.env.BASE_URL,
       value: '1225',
       form: {
         user: {

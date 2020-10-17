@@ -4,7 +4,7 @@
       <div class="container">
         <a href="/#/" class="text-dark d-flex align-items-center"
           ><img
-            src="/${process.env.VUE_APP_REPONAME}/img/logo.png"
+            :src="`${publicPath}img/logo.png`"
             alt=""
             srcset=""
             width="158"
@@ -33,7 +33,9 @@
 import $ from 'jquery';
 export default {
   data() {
-    return {};
+    return {
+      publicPath: process.env.BASE_URL,
+    };
   },
   methods: {
     logout() {
