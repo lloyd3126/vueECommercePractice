@@ -568,6 +568,71 @@
         </div>
       </div>
     </div>
+    <!-- footer -->
+    <footer class="page-footer font-small cyan darken-3 text-center mt-5">
+      <!-- Footer Elements -->
+      <div class="container">
+        <!-- Grid row-->
+        <div class="row">
+          <!-- Grid column -->
+          <div class="col-md-12 py-5">
+            <div class="flex-center">
+              <!-- Facebook -->
+              <a
+                class="facebook-ic"
+                target="_blank"
+                href="https://www.facebook.com/lloyd3126/"
+              >
+                <i
+                  class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"
+                >
+                </i>
+              </a>
+              <!--Linkedin -->
+              <a
+                class="linkdin-ic"
+                target="_blank"
+                href="https://www.linkedin.com/in/lloyd3126/"
+              >
+                <i
+                  class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"
+                >
+                </i>
+              </a>
+              <!--google -->
+              <a class="google-ic" href="mailto: lloyd3126@gmail.com">
+                <i class="fab fa-google fa-lg white-text mr-md-5 mr-3 fa-2x">
+                </i>
+              </a>
+              <!--Github-->
+              <a
+                class="github-ic"
+                target="_blank"
+                href="https://github.com/lloyd3126"
+              >
+                <i class="fab fa-github fa-lg white-text fa-2x"> </i>
+              </a>
+            </div>
+          </div>
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row-->
+      </div>
+      <!-- Footer Elements -->
+
+      <!-- Copyright -->
+      <div class="footer-copyright text-center pt-3 ">
+        <a href="https://github.com/lloyd3126/"> 陳重年 Chen Chung Nien</a>
+        © 2020 Copyright
+      </div>
+      <div class="footer-copyright text-center pb-3">
+        <a href="https://www.freepik.com/vectors/background">
+          Background vector created by freepik - www.freepik.com</a
+        >
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
   </div>
 </template>
 
@@ -816,6 +881,14 @@ export default {
 </script>
 
 <style scoped>
+.page-footer {
+  background-color: #eee;
+}
+.footer-copyright,
+.footer-copyright a {
+  background-color: #222;
+  color: #eee;
+}
 .hover-red {
   background-color: white;
   color: #212529;

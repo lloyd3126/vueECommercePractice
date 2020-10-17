@@ -22,48 +22,73 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
-    meta: { requiresAuth: false },
+    meta: { 
+      requiresAuth: false, 
+      title: '登入｜四分之一蛋糕工作室' 
+    },
   },
   {
     path: '/',
     name: 'Main',
     component: Main,
+    meta: { 
+      requiresAuth: false, 
+      title: '首頁｜四分之一蛋糕工作室' 
+    },
   },
   {
     path: '/admin',
     name: 'Dashboard',
     component: Dashboard,
-    meta: { requiresAuth: true },
+    meta: { 
+      requiresAuth: true, 
+      title: '主控台｜四分之一蛋糕工作室' 
+    },
     children: [
       {
         path: 'products',
         name: 'Products',
         component: Products,
-        meta: { requiresAuth: true },
+        meta: { 
+          requiresAuth: true, 
+          title: '主控台｜四分之一蛋糕工作室' 
+        }
       },
       {
         path: 'orders',
         name: 'Orders',
         component: Orders,
-        meta: { requiresAuth: true },
+        meta: { 
+          requiresAuth: true, 
+          title: '主控台｜四分之一蛋糕工作室' 
+        }
       },
       {
         path: 'coupons',
         name: 'Coupons',
         component: Coupons,
-        meta: { requiresAuth: true },
+        meta: { 
+          requiresAuth: true, 
+          title: '主控台｜四分之一蛋糕工作室' 
+        }
       },
       {
         path: 'simulation',
         name: 'Simulation',
         component: CustomerOrder,
-        meta: { requiresAuth: true },
+        meta: { 
+          requiresAuth: true, 
+          title: '主控台｜四分之一蛋糕工作室' 
+        }
       },
       {
         path: 'customer_checkout/:orderId',
         name: 'CustomerCheckout',
         component: CustomerCheckout,
-        meta: { requiresAuth: true },
+        meta: { 
+          requiresAuth: true, 
+          title: '主控台｜四分之一蛋糕工作室' 
+        }
       },
     ],
   },

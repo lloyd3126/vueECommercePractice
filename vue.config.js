@@ -6,7 +6,7 @@ module.exports = {
       pages: {
         index: {
           entry: 'src/main.js',
-          title: '四分之一蛋糕工作室',
+          title: '首頁｜四分之一蛋糕工作室',
         }
       }
   }

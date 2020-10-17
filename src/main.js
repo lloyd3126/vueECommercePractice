@@ -39,11 +39,11 @@ new Vue({
 }).$mount('#app');
 
 router.beforeEach((to, from, next) => {
-  // if (from.matched[0].path == '/admin') {
-  //   console.log(to.matched[1].path.replace('/admin/', ''));
-  // }
-  const { requiresAuth } = to.meta;
+  const { requiresAuth, title } = to.meta;
   // console.log(requiresAuth);
+  if (title) {
+    document.title = title;
+  }
   if (requiresAuth) {
     // console.log('這裡需要驗證');
     const api = `${process.env.VUE_APP_APIPATH}/api/user/check`;
