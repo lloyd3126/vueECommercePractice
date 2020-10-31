@@ -24,7 +24,10 @@
               >
             </li>
             <li class="nav-item">
-              <a class="mx-2 link-hover font-weight-bold text-dark nav-link "
+              <a
+                :href="`${publicPath}#/cart`"
+                v-if="$route.path !== '/cart'"
+                class="mx-2 link-hover font-weight-bold text-dark nav-link "
                 >購物車</a
               >
             </li>

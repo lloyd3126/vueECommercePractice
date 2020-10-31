@@ -102,7 +102,7 @@
           <button
             type="button"
             class="btn btn-success btn-lg btn-block"
-            @click="$router.push(`/`)"
+            @click="$router.push(`/cart`)"
           >
             前往購物車
           </button>

@@ -386,7 +386,6 @@ export default {
       this.$http.get(api).then((response) => {
         const { products, success } = response.data;
         if (success) {
-          // console.log(products);
           let newList = {};
           products.forEach((product) => {
             if (product.is_enabled) {
@@ -398,13 +397,10 @@ export default {
           });
           vm.products = newList;
         }
-
         vm.isLoading = false;
-        // vm.status.openModalName = '';
       });
     },
     getProduct(productName) {
-      // console.log(productName, this.products[productName]);
       this.tempProduct.title = this.products[productName][0].title;
       this.tempProduct.imageUrl = this.products[productName][0].imageUrl;
       this.tempProduct.description = this.products[productName][0].description;

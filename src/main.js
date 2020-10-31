@@ -8,6 +8,7 @@ import { ValidationProvider, ValidationObserver, localize, extend } from 'vee-va
 import { email, required, numeric } from 'vee-validate/dist/rules';
 import zhTW from 'vee-validate/dist/locale/zh_TW.json';
 import Clipboard from 'v-clipboard'
+import Notify from 'vue2-notify'
 
 import App from './App.vue';
 import router from './router';
@@ -17,6 +18,7 @@ import currencyFilter from './filters/currency';
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(Clipboard)
+Vue.use(Notify)
 axios.defaults.withCredentials = true;
 Vue.component('Loading', Loading);
 Vue.filter('currency', currencyFilter);

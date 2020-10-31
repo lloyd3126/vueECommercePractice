@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 // import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
+import Cart from '../views/Cart.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Products from '../views/Products.vue';
 import Product from '../views/Product.vue';
@@ -26,6 +27,15 @@ const routes = [
     meta: { 
       requiresAuth: false, 
       title: '登入｜四分之一蛋糕工作室' 
+    },
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart,
+    meta: { 
+      requiresAuth: false, 
+      title: '購物車｜四分之一蛋糕工作室' 
     },
   },
   {

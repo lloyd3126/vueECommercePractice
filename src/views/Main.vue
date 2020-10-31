@@ -441,6 +441,20 @@
                   </div>
                 </div>
               </div>
+              <button
+                type="button"
+                :class="{
+                  btn: true,
+                  'btn-secondary': true,
+                  'btn-lg': true,
+                  'btn-block': true,
+                  disabled: false,
+                  'mt-2': true,
+                }"
+                @click="clearAllUnpaidOrders"
+              >
+                清除所有未付款的訂單
+              </button>
             </div>
           </div>
           <!-- coupon -->
@@ -639,6 +653,12 @@ export default {
       vm.$http.post(api, data).then((response) => {
         const { success, message, orderId } = response.data;
         if (success) {
+          let orderIds = localStorage.getItem('orderIds');
+          if (orderIds == null || orderIds == '') {
+            localStorage.setItem('orderIds', `${orderId}`);
+          } else {
+            localStorage.setItem('orderIds', `${orderIds}, ${orderId}`);
+          }
           vm.$bus.$emit(
             'message:push',
             `${message}，訂單編號為 ${orderId}`,
@@ -695,10 +715,6 @@ export default {
         }
         vm.couponCode = '';
       });
-    },
-    changeTag(tag) {
-      const vm = this;
-      vm.tag = tag;
     },
     addCart(product_id, qty = 1) {
       const data = {
@@ -765,11 +781,63 @@ export default {
         }
       });
     },
+    clearAllUnpaidOrders() {
+      let UnpaidOrderIds = Object.keys(this.orderStatusList)
+        .map((orderId) => this.orderStatusList[orderId])
+        .filter((order) => order.payStatus === false)
+        .map((order) => order.id);
+      let temp = this.orderStatusList;
+      UnpaidOrderIds.forEach((orderId) => {
+        delete temp[orderId];
+      });
+      localStorage.setItem('orderIds', '');
+      this.orderStatusList = { ...temp };
+    },
+  },
+  mounted() {
+    let orderIds = localStorage.getItem('orderIds');
+    if (orderIds != null && orderIds != '') {
+      this.$bus.$emit(
+        'message:push',
+        '尚有訂單未完成付款，請至購物車查看！',
+        'warning'
+      );
+    }
   },
   created() {
     const vm = this;
     vm.getProducts();
     vm.getCart();
+    let orderIds = localStorage.getItem('orderIds');
+    if (orderIds != null && orderIds != '') {
+      let orderIdArr = orderIds.split(', ');
+      orderIdArr.forEach((orderId) => {
+        const vm = this;
+        const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${orderId}`;
+        vm.isLoading = true;
+        vm.$http.get(api).then((response) => {
+          const { order, success } = response.data;
+          if (success) {
+            if (order.is_paid == false) {
+              let temp = {};
+              temp[order.id] = {
+                id: order.id,
+                show: false,
+                payStatus: false,
+              };
+              vm.orderStatusList = { ...vm.orderStatusList, ...temp };
+            } else {
+              let orderIds = localStorage.getItem('orderIds');
+              let orderIdArr = orderIds.split(', ');
+              orderIdArr.splice(orderIdArr.indexOf(order.id), 1);
+              orderIds = orderIdArr.join(', ');
+              localStorage.setItem('orderIds', `${orderIds}`);
+            }
+            vm.isLoading = false;
+          }
+        });
+      });
+    }
     vm.$bus.$on('cart:update', () => {
       vm.getCart();
     });
