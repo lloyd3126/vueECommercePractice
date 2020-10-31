@@ -37,7 +37,7 @@
         <button
           type="button"
           class="btn btn-outline-secondary btn-sm"
-          @click="getProduct"
+          @click="getProduct(product[0].title)"
         >
           <i class="fas fa-spinner fa-spin" v-if="status.dataLoading"></i>
           查看更多
@@ -107,9 +107,8 @@ export default {
         this.$emit('sendProductDataOut', this.product, 'unlike');
       }
     },
-    getProduct() {
-      this.$emit('sendProductDataOut', this.product, 'moreInfo');
-      $('#productModal').modal('show');
+    getProduct(productName) {
+      this.$router.push(`/product/${productName}`);
     },
     addCart(product_id, qty = 1) {
       const data = {

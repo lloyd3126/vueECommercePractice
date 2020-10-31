@@ -17,6 +17,19 @@
           <ul class="navbar-nav">
             <li class="nav-item">
               <a
+                :href="`${publicPath}#/`"
+                v-if="$route.path !== '/'"
+                class="mx-2 link-hover font-weight-bold text-dark nav-link "
+                >首頁</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="mx-2 link-hover font-weight-bold text-dark nav-link "
+                >購物車</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
                 :href="`${publicPath}#/admin/products`"
                 class="mx-2 link-hover font-weight-bold text-dark nav-link "
                 >商品管理</a

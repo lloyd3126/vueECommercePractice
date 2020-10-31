@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Products from '../views/Products.vue';
+import Product from '../views/Product.vue';
 import Orders from '../views/Orders.vue';
 import Coupons from '../views/Coupons.vue';
 import CustomerOrder from '../views/CustomerOrder.vue';
@@ -34,7 +35,15 @@ const routes = [
     meta: { 
       requiresAuth: false, 
       title: '首頁｜四分之一蛋糕工作室' 
-    },
+    }
+  },
+  { path: '/product/:productName',
+    name: 'Product',
+    component: Product,
+    meta: { 
+      requiresAuth: false, 
+      title: '商品名｜四分之一蛋糕工作室'  
+    }
   },
   {
     path: '/admin',
