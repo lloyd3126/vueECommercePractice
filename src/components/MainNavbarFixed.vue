@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top">
       <div class="container">
         <a :href="`${publicPath}#/`" class="text-dark d-flex align-items-center"
           ><img
@@ -14,15 +14,15 @@
           class="navbar-toggler"
           type="button"
           data-toggle="collapse"
-          data-target="#MainNavbarContent"
-          aria-controls="MainNavbarContent"
+          data-target="#MainNavbarFixedContent"
+          aria-controls="MainNavbarFixedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div
-          id="MainNavbarContent"
+          id="MainNavbarFixedContent"
           class="collapse navbar-collapse justify-content-end order-3 order-md-1"
         >
           <ul class="navbar-nav">
@@ -86,3 +86,15 @@ export default {
   },
 };
 </script>
+
+<style scope>
+.navbar-light {
+  background-color: #fff;
+}
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .navbar-light {
+    background: none;
+  }
+}
+</style>

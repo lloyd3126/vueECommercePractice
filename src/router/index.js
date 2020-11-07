@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 // import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Cart from '../views/Cart.vue';
+import About from '../views/About.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Products from '../views/Products.vue';
 import Product from '../views/Product.vue';
@@ -40,11 +41,20 @@ const routes = [
   },
   {
     path: '/',
+    name: 'About',
+    component: About,
+    meta: { 
+      requiresAuth: false, 
+      title: '首頁｜四分之一蛋糕工作室' 
+    },
+  },
+  {
+    path: '/shop',
     name: 'Main',
     component: Main,
     meta: { 
       requiresAuth: false, 
-      title: '首頁｜四分之一蛋糕工作室' 
+      title: '商品專區｜四分之一蛋糕工作室' 
     }
   },
   { path: '/product/:productName',

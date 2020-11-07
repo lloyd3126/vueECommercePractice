@@ -805,6 +805,11 @@ export default {
     }
   },
   created() {
+    if (this.$route.query.tag) {
+      this.tag = this.$route.query.tag;
+    }
+
+    window.scrollTo(0, 0);
     const vm = this;
     vm.getProducts();
     vm.getCart();

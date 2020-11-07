@@ -407,6 +407,7 @@ export default {
     },
   },
   created() {
+    window.scrollTo(0, 0);
     const vm = this;
     vm.getCart();
     let orderIds = localStorage.getItem('orderIds');
