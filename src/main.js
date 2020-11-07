@@ -12,6 +12,7 @@ import Notify from 'vue2-notify'
 
 import App from './App.vue';
 import router from './router';
+import store from './store';
 import './bus';
 import currencyFilter from './filters/currency';
 
@@ -37,6 +38,7 @@ extend('numeric', {
 
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount('#app');
 

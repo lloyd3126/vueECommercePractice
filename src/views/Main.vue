@@ -576,7 +576,6 @@ export default {
       couponCode: '',
       currentPage: 1,
       pagination: {},
-      isLoading: false,
       products: [],
       tempProduct: {
         title: '',
@@ -585,12 +584,6 @@ export default {
         content: '',
         items: [],
       },
-      cartData: {
-        carts: [],
-        final_total: 0,
-        total: 0,
-      },
-      cartsLength: 0,
       likeProducts: [],
       tag: 'total',
       orderStatusList: {},
@@ -634,11 +627,20 @@ export default {
         return result;
       }
     },
+    isLoading() {
+      return this.$store.state.isLoading;
+    },
+    cartData() {
+      return this.$store.state.cartData;
+    },
   },
   methods: {
     copyCouponCode() {
-      const vm = this;
-      vm.$bus.$emit('message:push', `已複製優惠代碼：${this.value}`, 'success');
+      this.$bus.$emit(
+        'message:push',
+        `已複製優惠代碼：${this.value}`,
+        'success'
+      );
     },
     checkPayOrNot(id, status) {
       this.orderStatusList[id]['payStatus'] = status;
@@ -649,7 +651,7 @@ export default {
         data: vm.form,
       };
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
-      vm.isLoading = true;
+      vm.$store.commit('setIsLoading', true);
       vm.$http.post(api, data).then((response) => {
         const { success, message, orderId } = response.data;
         if (success) {
@@ -664,7 +666,7 @@ export default {
             `${message}，訂單編號為 ${orderId}`,
             'success'
           );
-          vm.getCart();
+          vm.$store.dispatch('getCart');
           vm.form = {
             user: {
               name: '',
@@ -679,7 +681,7 @@ export default {
           temp[orderId] = { id: orderId, show: false, payStatus: false };
           vm.orderStatusList = { ...vm.orderStatusList, ...temp };
         } else {
-          vm.isLoading = false;
+          vm.$store.commit('setIsLoading', false);
           vm.$bus.$emit('message:push', message, 'danger');
         }
         vm.couponCode = '';
@@ -688,12 +690,12 @@ export default {
     delCart(id) {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      vm.isLoading = true;
+      vm.$store.commit('setIsLoading', true);
       vm.$http.delete(api).then((response) => {
         const { success } = response.data;
         if (success) {
-          vm.getCart();
-          vm.isLoading = false;
+          vm.$store.dispatch('getCart');
+          vm.$store.commit('setIsLoading', false);
         }
       });
     },
@@ -703,15 +705,16 @@ export default {
       };
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
-      vm.isLoading = true;
+
+      vm.$store.commit('setIsLoading', true);
       vm.$http.post(api, data).then((response) => {
         const { success, data, message } = response.data;
         if (success) {
-          this.$bus.$emit('message:push', message, 'success');
-          vm.getCart();
+          vm.$bus.$emit('message:push', message, 'success');
+          vm.$store.dispatch('getCart');
         } else {
-          vm.isLoading = false;
-          this.$bus.$emit('message:push', message, 'danger');
+          vm.$store.commit('setIsLoading', false);
+          vm.$bus.$emit('message:push', message, 'danger');
         }
         vm.couponCode = '';
       });
@@ -722,11 +725,11 @@ export default {
       };
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.isLoading = true;
+      vm.$store.commit('setIsLoading', true);
       vm.$http.post(api, data).then((response) => {
         const { success } = response.data;
         if (success) {
-          vm.getCart();
+          vm.$store.dispatch('getCart');
         }
       });
     },
@@ -751,8 +754,8 @@ export default {
     getProducts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      vm.$store.commit('setIsLoading', true);
+      vm.$http.get(api).then((response) => {
         const { products, success } = response.data;
         if (success) {
           let newList = {};
@@ -766,19 +769,7 @@ export default {
           });
           vm.products = newList;
         }
-        vm.isLoading = false;
-      });
-    },
-    getCart() {
-      const vm = this;
-      vm.isLoading = true;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$http.get(api).then((response) => {
-        const { success, data } = response.data;
-        if (success) {
-          vm.cartData = data;
-          vm.isLoading = false;
-        }
+        vm.$store.commit('setIsLoading', false);
       });
     },
     clearAllUnpaidOrders() {
@@ -808,18 +799,16 @@ export default {
     if (this.$route.query.tag) {
       this.tag = this.$route.query.tag;
     }
-
     window.scrollTo(0, 0);
     const vm = this;
     vm.getProducts();
-    vm.getCart();
+    vm.$store.dispatch('getCart');
     let orderIds = localStorage.getItem('orderIds');
     if (orderIds != null && orderIds != '') {
       let orderIdArr = orderIds.split(', ');
       orderIdArr.forEach((orderId) => {
-        const vm = this;
         const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${orderId}`;
-        vm.isLoading = true;
+        vm.$store.commit('setIsLoading', true);
         vm.$http.get(api).then((response) => {
           const { order, success } = response.data;
           if (success) {
@@ -838,13 +827,13 @@ export default {
               orderIds = orderIdArr.join(', ');
               localStorage.setItem('orderIds', `${orderIds}`);
             }
-            vm.isLoading = false;
+            vm.$store.commit('setIsLoading', false);
           }
         });
       });
     }
     vm.$bus.$on('cart:update', () => {
-      vm.getCart();
+      vm.$store.dispatch('getCart');
     });
   },
 };
