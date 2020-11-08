@@ -86,7 +86,7 @@
               <i class="fas fa-shopping-cart"></i>
               購物車
               <span class="badge badge-secondary ml-1">{{
-                cartData.carts.length
+                cartData.carts.length || 0
               }}</span>
             </div>
             <div
@@ -162,7 +162,7 @@
             <i class="fas fa-shopping-cart"></i>
             購物車
             <span class="badge badge-secondary ml-1">{{
-              cartData.carts.length
+              cartData.carts.length || 0
             }}</span>
           </div>
           <div

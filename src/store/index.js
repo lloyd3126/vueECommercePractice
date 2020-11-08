@@ -9,7 +9,11 @@ Vue.use(VueAxios, axios)
 const store = new Vuex.Store({
   state: {
     count: 0,
-    cartData: {},
+    cartData: {
+      carts: [],
+      total: 0,
+      final_total: 0
+    },
 		isLoading: false
   },
   mutations: {
