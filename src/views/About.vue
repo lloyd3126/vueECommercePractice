@@ -198,13 +198,11 @@ export default {
       scrollNum: 0,
     };
   },
-  computed: {},
   methods: {
     handleScroll(event) {
       this.scrollNum = window.scrollY;
     },
     handleResize(event) {
-      console.log(window.innerWidth);
       if (window.innerWidth < 1060 && window.innerWidth > 541) {
         this.coverImgUrl = './img/cover-md.jpg';
       } else if (window.innerWidth <= 540) {
@@ -220,6 +218,13 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleResize);
+    if (window.innerWidth < 1060 && window.innerWidth > 541) {
+      this.coverImgUrl = './img/cover-md.jpg';
+    } else if (window.innerWidth <= 540) {
+      this.coverImgUrl = './img/cover-sm.jpg';
+    } else {
+      this.coverImgUrl = './img/cover.jpg';
+    }
   },
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll);
