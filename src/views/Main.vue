@@ -3,35 +3,118 @@
     <loading :active.sync="isLoading"></loading>
     <MainNavbar />
     <Alert />
-    <div class="container">
-      <div class="row mb-3">
-        <div class="col-sm-12">
-          <div
-            id="carouselExampleSlidesOnly"
-            class="carousel slide"
-            data-ride="carousel"
-          >
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img
-                  class="d-block w-100"
-                  :src="`${publicPath}img/carousel.png`"
-                  alt="First slide"
-                />
+    <section id="carousel-section">
+      <div class="container">
+        <div class="row mb-3">
+          <div class="col-sm-12">
+            <div
+              id="carouselExampleSlidesOnly"
+              class="carousel slide"
+              data-ride="carousel"
+            >
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img
+                    class="d-block w-100"
+                    :src="`${publicPath}img/carousel.png`"
+                    alt="First slide"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <!-- small -->
-        <div class="sticky-top col-12 p-0">
-          <div class="d-md-none d-flex col-md-6">
+    </section>
+    <section id="product-section">
+      <div class="container">
+        <div class="row">
+          <!-- small -->
+          <div class="sticky-top col-12 p-0">
+            <div class="d-md-none d-flex col-md-6">
+              <div
+                :class="{
+                  'hover-red': true,
+                  'p-2': true,
+                  'col-4': true,
+                  'hover-red-active': tag === 'total',
+                }"
+                @click="tag = 'total'"
+              >
+                全部商品
+              </div>
+              <div
+                :class="{
+                  'hover-red': true,
+                  'p-2': true,
+                  'col-4': true,
+                  'hover-red-active': tag === 'popular',
+                }"
+                @click="tag = 'popular'"
+              >
+                熱門商品
+              </div>
+              <div
+                :class="{
+                  'hover-red': true,
+                  'p-2': true,
+                  'col-4': true,
+                  'hover-red-active': tag === 'sale',
+                }"
+                @click="tag = 'sale'"
+              >
+                特價商品
+              </div>
+            </div>
+            <div class="d-md-none d-flex col-md-6 mb-3">
+              <div
+                :class="{
+                  'hover-red': true,
+                  'p-2': true,
+                  'col-4': true,
+                  'hover-red-active': tag === 'like',
+                }"
+                @click="tag = 'like'"
+              >
+                <i class="fas fa-heart"></i>
+                已收藏
+              </div>
+              <div
+                :class="{
+                  'hover-red': true,
+                  'p-2': true,
+                  'col-4': true,
+                  'hover-red-active': tag === 'cart',
+                }"
+                @click="tag = 'cart'"
+              >
+                <i class="fas fa-shopping-cart"></i>
+                購物車
+                <span class="badge badge-secondary ml-1">{{
+                  cartData.carts.length || 0
+                }}</span>
+              </div>
+              <div
+                :class="{
+                  'hover-red': true,
+                  'p-2': true,
+                  'col-4': true,
+                  'hover-red-active': tag === 'coupon',
+                }"
+                @click="tag = 'coupon'"
+              >
+                <i class="fas fa-ticket-alt"></i>
+                領取優惠卷
+              </div>
+            </div>
+          </div>
+          <!-- big -->
+          <div class="d-none d-md-flex col-md-12 text-center sticky-top mb-3">
             <div
               :class="{
                 'hover-red': true,
                 'p-2': true,
-                'col-4': true,
+                'col-2': true,
                 'hover-red-active': tag === 'total',
               }"
               @click="tag = 'total'"
@@ -42,7 +125,7 @@
               :class="{
                 'hover-red': true,
                 'p-2': true,
-                'col-4': true,
+                'col-2': true,
                 'hover-red-active': tag === 'popular',
               }"
               @click="tag = 'popular'"
@@ -53,20 +136,18 @@
               :class="{
                 'hover-red': true,
                 'p-2': true,
-                'col-4': true,
+                'col-2': true,
                 'hover-red-active': tag === 'sale',
               }"
               @click="tag = 'sale'"
             >
               特價商品
             </div>
-          </div>
-          <div class="d-md-none d-flex col-md-6 mb-3">
             <div
               :class="{
                 'hover-red': true,
                 'p-2': true,
-                'col-4': true,
+                'col-2': true,
                 'hover-red-active': tag === 'like',
               }"
               @click="tag = 'like'"
@@ -78,7 +159,7 @@
               :class="{
                 'hover-red': true,
                 'p-2': true,
-                'col-4': true,
+                'col-2': true,
                 'hover-red-active': tag === 'cart',
               }"
               @click="tag = 'cart'"
@@ -93,7 +174,7 @@
               :class="{
                 'hover-red': true,
                 'p-2': true,
-                'col-4': true,
+                'col-2': true,
                 'hover-red-active': tag === 'coupon',
               }"
               @click="tag = 'coupon'"
@@ -102,384 +183,312 @@
               領取優惠卷
             </div>
           </div>
-        </div>
-        <!-- big -->
-        <div class="d-none d-md-flex col-md-12 text-center sticky-top mb-3">
-          <div
-            :class="{
-              'hover-red': true,
-              'p-2': true,
-              'col-2': true,
-              'hover-red-active': tag === 'total',
-            }"
-            @click="tag = 'total'"
-          >
-            全部商品
-          </div>
-          <div
-            :class="{
-              'hover-red': true,
-              'p-2': true,
-              'col-2': true,
-              'hover-red-active': tag === 'popular',
-            }"
-            @click="tag = 'popular'"
-          >
-            熱門商品
-          </div>
-          <div
-            :class="{
-              'hover-red': true,
-              'p-2': true,
-              'col-2': true,
-              'hover-red-active': tag === 'sale',
-            }"
-            @click="tag = 'sale'"
-          >
-            特價商品
-          </div>
-          <div
-            :class="{
-              'hover-red': true,
-              'p-2': true,
-              'col-2': true,
-              'hover-red-active': tag === 'like',
-            }"
-            @click="tag = 'like'"
-          >
-            <i class="fas fa-heart"></i>
-            已收藏
-          </div>
-          <div
-            :class="{
-              'hover-red': true,
-              'p-2': true,
-              'col-2': true,
-              'hover-red-active': tag === 'cart',
-            }"
-            @click="tag = 'cart'"
-          >
-            <i class="fas fa-shopping-cart"></i>
-            購物車
-            <span class="badge badge-secondary ml-1">{{
-              cartData.carts.length || 0
-            }}</span>
-          </div>
-          <div
-            :class="{
-              'hover-red': true,
-              'p-2': true,
-              'col-2': true,
-              'hover-red-active': tag === 'coupon',
-            }"
-            @click="tag = 'coupon'"
-          >
-            <i class="fas fa-ticket-alt"></i>
-            領取優惠卷
-          </div>
-        </div>
-        <div class="col-sm-12">
-          <div class="row">
-            <!-- messageBox -->
-            <div
-              class="col-12"
-              v-if="tag === 'like' && Object.keys(filtersProducts).length === 0"
-            >
-              <h6 class="border rounded p-3">目前沒有商品被加入收藏</h6>
-            </div>
-            <!-- productList -->
-            <div
-              v-for="product in filtersProducts"
-              :key="'contain' + product[0].id"
-              class="col-12 col-lg-4 mb-4"
-            >
-              <ProductBox
-                @sendProductDataOut="setProductDataHere"
-                :key="product[0].id"
-                :product="product"
-                :likeProducts="likeProducts"
-                :productTitle="product[0].title"
-              ></ProductBox>
-            </div>
-          </div>
-          <!-- cart -->
-          <div class="row justify-content-center" v-if="tag === 'cart'">
-            <!-- cart -->
-            <div class="col-12 col-md-8">
-              <h3 class="text-center mt-3">1. 加入購物車</h3>
-              <table class="table mt-4">
-                <thead>
-                  <th></th>
-                  <th>品名</th>
-                  <th>數量</th>
-                  <th>單價</th>
-                </thead>
-                <tbody>
-                  <tr v-for="item in cartData.carts" :key="item.id">
-                    <td class="align-middle">
-                      <button
-                        type="button"
-                        class="btn btn-outline-danger btn-sm"
-                        @click="delCart(item.id)"
-                      >
-                        <i class="far fa-trash-alt"></i>
-                      </button>
-                    </td>
-                    <td class="align-middle">
-                      {{ item.product.title }}
-                      <div class="text-success" v-if="item.coupon">
-                        已套用優惠券：{{ item.coupon.code }}
-                      </div>
-                    </td>
-                    <td class="align-middle">
-                      {{ item.qty }}/{{ item.product.unit }}
-                    </td>
-                    <td class="align-middle text-right">
-                      {{ item.final_total }}
-                    </td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="3" class="text-right">總計</td>
-                    <td class="text-right">{{ cartData.total }}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="3" class="text-right text-success">
-                      折扣價
-                    </td>
-                    <td class="text-right text-success">
-                      {{ cartData.final_total }}
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-              <div class="input-group mb-3 input-group-sm">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="請輸入優惠碼"
-                  v-model="couponCode"
-                />
-                <div class="input-group-append">
-                  <button
-                    class="btn btn-outline-secondary"
-                    type="button"
-                    @click="useCoupon(couponCode)"
-                  >
-                    套用優惠碼
-                  </button>
-                </div>
+          <div class="col-sm-12">
+            <div class="row">
+              <!-- messageBox -->
+              <div
+                class="col-12"
+                v-if="
+                  tag === 'like' && Object.keys(filtersProducts).length === 0
+                "
+              >
+                <h6 class="border rounded p-3">目前沒有商品被加入收藏</h6>
+              </div>
+              <!-- productList -->
+              <div
+                v-for="product in filtersProducts"
+                :key="'contain' + product[0].id"
+                class="col-12 col-lg-4 mb-4"
+              >
+                <ProductBox
+                  @sendProductDataOut="setProductDataHere"
+                  :key="product[0].id"
+                  :product="product"
+                  :likeProducts="likeProducts"
+                  :productTitle="product[0].title"
+                ></ProductBox>
               </div>
             </div>
-            <!-- orderInfo -->
-            <div class="col-12 col-md-8">
-              <ValidationObserver
-                v-slot="{ invalid }"
-                class="my-4 row justify-content-center"
-                ref="observer"
-              >
-                <form class="col-12" @submit.prevent="createOrder">
-                  <h3 class="text-center mb-4">2. 填寫結帳資訊</h3>
-                  <div class="form-group">
-                    <label for="useremail">Email</label>
-                    <ValidationProvider
-                      rules="required|email"
-                      v-slot="{ errors }"
-                    >
-                      <input
-                        type="text"
-                        :class="{
-                          'form-control': true,
-                          'is-invalid': errors[0],
-                        }"
-                        name="email"
-                        id="useremail"
-                        v-model="form.user.email"
-                        placeholder="請輸入 Email"
-                        required
-                      />
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                    <span class="text-danger"></span>
-                  </div>
-                  <div class="form-group">
-                    <label for="username">收件人姓名</label>
-                    <ValidationProvider rules="required" v-slot="{ errors }">
-                      <input
-                        type="text"
-                        :class="{
-                          'form-control': true,
-                          'is-invalid': errors[0],
-                        }"
-                        name="name"
-                        id="username"
-                        v-model="form.user.name"
-                        placeholder="輸入姓名"
-                        required
-                      />
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                  </div>
-                  <div class="form-group">
-                    <label for="usertel">收件人電話</label>
-                    <ValidationProvider
-                      rules="required|numeric"
-                      v-slot="{ errors }"
-                    >
-                      <input
-                        type="tel"
-                        :class="{
-                          'form-control': true,
-                          'is-invalid': errors[0],
-                        }"
-                        name="tel"
-                        id="usertel"
-                        v-model="form.user.tel"
-                        placeholder="請輸入電話"
-                        required
-                      />
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                  </div>
-                  <div class="form-group">
-                    <label for="useraddress">收件人地址</label>
-                    <ValidationProvider rules="required" v-slot="{ errors }">
-                      <input
-                        type="text"
-                        :class="{
-                          'form-control': true,
-                          'is-invalid': errors[0],
-                        }"
-                        name="address"
-                        id="useraddress"
-                        v-model="form.user.address"
-                        placeholder="請輸入地址"
-                        required
-                      />
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                  </div>
-                  <div class="form-group">
-                    <label for="comment">留言</label>
-                    <textarea
-                      name=""
-                      id="comment"
-                      class="form-control"
-                      cols="30"
-                      rows="10"
-                      v-model="form.message"
-                    ></textarea>
-                  </div>
-                  <div class="text-right">
+            <!-- cart -->
+            <div class="row justify-content-center" v-if="tag === 'cart'">
+              <!-- cart -->
+              <div class="col-12 col-md-8">
+                <h3 class="text-center mt-3">1. 加入購物車</h3>
+                <table class="table mt-4">
+                  <thead>
+                    <th></th>
+                    <th>品名</th>
+                    <th>數量</th>
+                    <th>單價</th>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in cartData.carts" :key="item.id">
+                      <td class="align-middle">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger btn-sm"
+                          @click="delCart(item.id)"
+                        >
+                          <i class="far fa-trash-alt"></i>
+                        </button>
+                      </td>
+                      <td class="align-middle">
+                        {{ item.product.title }}
+                        <div class="text-success" v-if="item.coupon">
+                          已套用優惠券：{{ item.coupon.code }}
+                        </div>
+                      </td>
+                      <td class="align-middle">
+                        {{ item.qty }}/{{ item.product.unit }}
+                      </td>
+                      <td class="align-middle text-right">
+                        {{ item.final_total }}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="3" class="text-right">總計</td>
+                      <td class="text-right">{{ cartData.total }}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" class="text-right text-success">
+                        折扣價
+                      </td>
+                      <td class="text-right text-success">
+                        {{ cartData.final_total }}
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+                <div class="input-group mb-3 input-group-sm">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入優惠碼"
+                    v-model="couponCode"
+                  />
+                  <div class="input-group-append">
                     <button
-                      type="submit"
-                      :disabled="invalid"
-                      class="btn btn-danger"
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      @click="useCoupon(couponCode)"
                     >
-                      送出訂單
+                      套用優惠碼
                     </button>
                   </div>
-                </form>
-              </ValidationObserver>
-            </div>
-            <!-- CustomerCheckout -->
-            <div
-              class="col-12 col-md-8 mb-4"
-              v-if="Object.keys(orderStatusList).length !== 0"
-            >
-              <h3 class="text-center mt-3 mb-4">3. 確認訂單</h3>
-              <div id="accordion">
-                <div
-                  class="card"
-                  v-for="(orderStatus, key) in orderStatusList"
-                  :key="key"
+                </div>
+              </div>
+              <!-- orderInfo -->
+              <div class="col-12 col-md-8">
+                <ValidationObserver
+                  v-slot="{ invalid }"
+                  class="my-4 row justify-content-center"
+                  ref="observer"
                 >
+                  <form class="col-12" @submit.prevent="createOrder">
+                    <h3 class="text-center mb-4">2. 填寫結帳資訊</h3>
+                    <div class="form-group">
+                      <label for="useremail">Email</label>
+                      <ValidationProvider
+                        rules="required|email"
+                        v-slot="{ errors }"
+                      >
+                        <input
+                          type="text"
+                          :class="{
+                            'form-control': true,
+                            'is-invalid': errors[0],
+                          }"
+                          name="email"
+                          id="useremail"
+                          v-model="form.user.email"
+                          placeholder="請輸入 Email"
+                          required
+                        />
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                      <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                      <label for="username">收件人姓名</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <input
+                          type="text"
+                          :class="{
+                            'form-control': true,
+                            'is-invalid': errors[0],
+                          }"
+                          name="name"
+                          id="username"
+                          v-model="form.user.name"
+                          placeholder="輸入姓名"
+                          required
+                        />
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                    <div class="form-group">
+                      <label for="usertel">收件人電話</label>
+                      <ValidationProvider
+                        rules="required|numeric"
+                        v-slot="{ errors }"
+                      >
+                        <input
+                          type="tel"
+                          :class="{
+                            'form-control': true,
+                            'is-invalid': errors[0],
+                          }"
+                          name="tel"
+                          id="usertel"
+                          v-model="form.user.tel"
+                          placeholder="請輸入電話"
+                          required
+                        />
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                    <div class="form-group">
+                      <label for="useraddress">收件人地址</label>
+                      <ValidationProvider rules="required" v-slot="{ errors }">
+                        <input
+                          type="text"
+                          :class="{
+                            'form-control': true,
+                            'is-invalid': errors[0],
+                          }"
+                          name="address"
+                          id="useraddress"
+                          v-model="form.user.address"
+                          placeholder="請輸入地址"
+                          required
+                        />
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                    <div class="form-group">
+                      <label for="comment">留言</label>
+                      <textarea
+                        name=""
+                        id="comment"
+                        class="form-control"
+                        cols="30"
+                        rows="10"
+                        v-model="form.message"
+                      ></textarea>
+                    </div>
+                    <div class="text-right">
+                      <button
+                        type="submit"
+                        :disabled="invalid"
+                        class="btn btn-danger"
+                      >
+                        送出訂單
+                      </button>
+                    </div>
+                  </form>
+                </ValidationObserver>
+              </div>
+              <!-- CustomerCheckout -->
+              <div
+                class="col-12 col-md-8 mb-4"
+                v-if="Object.keys(orderStatusList).length !== 0"
+              >
+                <h3 class="text-center mt-3 mb-4">3. 確認訂單</h3>
+                <div id="accordion">
                   <div
-                    class="card-header"
-                    :id="'heading' + key"
-                    @click="orderStatus.show = !orderStatus.show"
-                    style="cursor: pointer;"
+                    class="card"
+                    v-for="(orderStatus, key) in orderStatusList"
+                    :key="key"
                   >
-                    <h5
-                      class="mb-0 d-flex justify-content-between align-items-center"
+                    <div
+                      class="card-header"
+                      :id="'heading' + key"
+                      @click="orderStatus.show = !orderStatus.show"
+                      style="cursor: pointer;"
                     >
-                      <div>
-                        <button
-                          class="btn"
-                          data-toggle="collapse"
-                          data-target="#collapseOne"
-                          aria-expanded="true"
-                          aria-controls="collapseOne"
-                        >
-                          訂單編號：{{ orderStatus.id }}
-                        </button>
+                      <h5
+                        class="mb-0 d-flex justify-content-between align-items-center"
+                      >
+                        <div>
+                          <button
+                            class="btn"
+                            data-toggle="collapse"
+                            data-target="#collapseOne"
+                            aria-expanded="true"
+                            aria-controls="collapseOne"
+                          >
+                            訂單編號：{{ orderStatus.id }}
+                          </button>
+                        </div>
+                        <div>
+                          <span
+                            class="badge badge-danger"
+                            v-if="!orderStatus.payStatus"
+                            >尚未付款</span
+                          >
+                          <span class="badge badge-success" v-else
+                            >付款完成</span
+                          >
+                        </div>
+                      </h5>
+                    </div>
+                    <div
+                      :id="'collapse' + key"
+                      :class="{ collapse: true, show: orderStatus.show }"
+                      :aria-labelledby="'heading' + key"
+                      data-parent="#accordion"
+                    >
+                      <div class="card-body">
+                        <!-- orderId -->
+                        <MainCustomerCheckout
+                          :orderStatus="orderStatus"
+                          @payOrNot="checkPayOrNot"
+                        ></MainCustomerCheckout>
                       </div>
-                      <div>
-                        <span
-                          class="badge badge-danger"
-                          v-if="!orderStatus.payStatus"
-                          >尚未付款</span
-                        >
-                        <span class="badge badge-success" v-else>付款完成</span>
-                      </div>
-                    </h5>
-                  </div>
-                  <div
-                    :id="'collapse' + key"
-                    :class="{ collapse: true, show: orderStatus.show }"
-                    :aria-labelledby="'heading' + key"
-                    data-parent="#accordion"
-                  >
-                    <div class="card-body">
-                      <!-- orderId -->
-                      <MainCustomerCheckout
-                        :orderStatus="orderStatus"
-                        @payOrNot="checkPayOrNot"
-                      ></MainCustomerCheckout>
                     </div>
                   </div>
                 </div>
+                <button
+                  type="button"
+                  :class="{
+                    btn: true,
+                    'btn-secondary': true,
+                    'btn-lg': true,
+                    'btn-block': true,
+                    disabled: false,
+                    'mt-2': true,
+                  }"
+                  @click="clearAllUnpaidOrders"
+                >
+                  清除所有未付款的訂單
+                </button>
               </div>
-              <button
-                type="button"
-                :class="{
-                  btn: true,
-                  'btn-secondary': true,
-                  'btn-lg': true,
-                  'btn-block': true,
-                  disabled: false,
-                  'mt-2': true,
-                }"
-                @click="clearAllUnpaidOrders"
-              >
-                清除所有未付款的訂單
-              </button>
             </div>
-          </div>
-          <!-- coupon -->
-          <div
-            class="row justify-content-center mt-5 mb-5"
-            v-if="tag === 'coupon'"
-          >
-            <div class="col-12 col-md-6 text-center">
-              <img
-                :src="`${publicPath}img/coupon.png`"
-                class="img-fluid coupon-img mb-3"
-                alt="Responsive image"
-                v-clipboard="value"
-                @click="copyCouponCode"
-              />
-              <!-- <img src="/img/coupon.png" alt="" width="auto" /> -->
-              <a href="https://www.vecteezy.com/free-vector/gift"
-                >Gift Vectors by Vecteezy</a
-              >
+            <!-- coupon -->
+            <div
+              class="row justify-content-center mt-5 mb-5"
+              v-if="tag === 'coupon'"
+            >
+              <div class="col-12 col-md-6 text-center">
+                <img
+                  :src="`${publicPath}img/coupon.png`"
+                  class="img-fluid coupon-img mb-3"
+                  alt="Responsive image"
+                  v-clipboard="value"
+                  @click="copyCouponCode"
+                />
+                <!-- <img src="/img/coupon.png" alt="" width="auto" /> -->
+                <a href="https://www.vecteezy.com/free-vector/gift"
+                  >Gift Vectors by Vecteezy</a
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- footer -->
+    </section>
     <footer class="page-footer font-small cyan darken-3 text-center mt-5">
       <!-- Footer Elements -->
       <div class="container">
@@ -543,7 +552,6 @@
       </div>
       <!-- Copyright -->
     </footer>
-    <!-- Footer -->
   </div>
 </template>
 
