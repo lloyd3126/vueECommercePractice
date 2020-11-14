@@ -403,10 +403,9 @@
                     :key="key"
                   >
                     <div
-                      class="card-header"
+                      class="card-header pointer"
                       :id="'heading' + key"
                       @click="orderStatus.show = !orderStatus.show"
-                      style="cursor: pointer;"
                     >
                       <h5
                         class="mb-0 d-flex justify-content-between align-items-center"
@@ -848,6 +847,9 @@ export default {
 </script>
 
 <style scoped>
+.pointer {
+  cursor: pointer;
+}
 .page-footer {
   background-color: #eee;
 }

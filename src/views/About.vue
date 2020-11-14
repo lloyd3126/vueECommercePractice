@@ -16,7 +16,7 @@
       <div class="container">
         <div class="row justify-content-center d-flex">
           <div class="col-xl-9 col-12">
-            <h3 class="text-center mt-5 mb-3" style="letter-spacing: 2px;">
+            <h3 class="text-center mt-5 mb-3">
               最新消息
             </h3>
             <ul id="msgUl">
@@ -252,6 +252,9 @@ export default {
 <style scoped>
 body {
   overflow-x: hidden;
+}
+#news-section h3 {
+  letter-spacing: 2px;
 }
 .productImg {
   height: 30vh;
