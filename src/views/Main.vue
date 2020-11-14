@@ -4,7 +4,7 @@
     <MainNavbar />
     <Alert />
     <section id="carousel-section">
-      <div class="container">
+      <div class="container mt-2">
         <div class="row mb-3">
           <div class="col-sm-12">
             <div
@@ -16,7 +16,7 @@
                 <div class="carousel-item active">
                   <img
                     class="d-block w-100"
-                    :src="`${publicPath}img/carousel.png`"
+                    :src="`${publicPath}img/1111.png`"
                     alt="First slide"
                   />
                 </div>
@@ -29,8 +29,7 @@
     <section id="product-section">
       <div class="container">
         <div class="row">
-          <!-- small -->
-          <div class="sticky-top col-12 p-0">
+          <div id="product-navbar-smallscreen" class="sticky-top col-12 p-0">
             <div class="d-md-none d-flex col-md-6">
               <div
                 :class="{
@@ -108,8 +107,10 @@
               </div>
             </div>
           </div>
-          <!-- big -->
-          <div class="d-none d-md-flex col-md-12 text-center sticky-top mb-3">
+          <div
+            id="product-navbar-bigscreen"
+            class="d-none d-md-flex col-md-12 text-center sticky-top mb-3"
+          >
             <div
               :class="{
                 'hover-red': true,
@@ -183,7 +184,7 @@
               領取優惠卷
             </div>
           </div>
-          <div class="col-sm-12">
+          <div id="product-list" class="col-sm-12">
             <div class="row">
               <!-- messageBox -->
               <div
@@ -488,6 +489,7 @@
         </div>
       </div>
     </section>
+
     <footer class="page-footer font-small cyan darken-3 text-center mt-5">
       <!-- Footer Elements -->
       <div class="container">
