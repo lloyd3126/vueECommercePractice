@@ -30,7 +30,7 @@
                 </a>
               </li>
               <li>
-                <a :href="`${publicPath}#/shop?tag=coupon`" class="d-flex">
+                <a :href="`${publicPath}#/shop?tag=popular`" class="d-flex">
                   <p class="dateTxt mr-3">2020/10/01</p>
                   <p class="msgTxt">
                     雙十節檔期，國旗造型、國父造型蛋糕各 10 個預約開放中。
@@ -38,7 +38,7 @@
                 </a>
               </li>
               <li>
-                <a :href="`${publicPath}#/shop?tag=coupon`" class="d-flex">
+                <a :href="`${publicPath}#/shop?tag=popular`" class="d-flex">
                   <p class="dateTxt mr-3">2020/09/25</p>
                   <p class="msgTxt">
                     中秋佳節月圓人團圓，柚子口味蛋糕限時銷售。
