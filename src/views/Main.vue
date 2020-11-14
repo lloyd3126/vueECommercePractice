@@ -709,12 +709,11 @@ export default {
       });
     },
     useCoupon(code) {
+      const vm = this;
       const data = {
         data: { code },
       };
-      const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
-
       vm.$store.commit('setIsLoading', true);
       vm.$http.post(api, data).then((response) => {
         const { success, data, message } = response.data;
@@ -729,10 +728,10 @@ export default {
       });
     },
     addCart(product_id, qty = 1) {
+      const vm = this;
       const data = {
         data: { product_id, qty },
       };
-      const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.$store.commit('setIsLoading', true);
       vm.$http.post(api, data).then((response) => {
@@ -805,11 +804,11 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.tag) {
-      this.tag = this.$route.query.tag;
+    const vm = this;
+    if (vm.$route.query.tag) {
+      vm.tag = vm.$route.query.tag;
     }
     window.scrollTo(0, 0);
-    const vm = this;
     vm.getProducts();
     vm.$store.dispatch('getCart');
     let orderIds = localStorage.getItem('orderIds');
