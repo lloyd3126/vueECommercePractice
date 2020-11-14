@@ -1,118 +1,126 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <div v-if="scrollNum > 1">
-      <div :class="{ box: true, 'box-color': scrollNum > 5 }"></div>
-      <MainNavbarFixed />
-    </div>
-    <div
-      class="cover"
-      :style="{ 'background-image': `url(${coverImgUrl})` }"
-    ></div>
-    <div class="container">
-      <div class="row justify-content-center d-flex">
-        <div class="col-xl-9 col-12">
-          <h3 class="text-center mt-5 mb-3" style="letter-spacing: 2px;">
-            最新消息
-          </h3>
-          <ul id="msgUl">
-            <li class="d-flex">
-              <p class="dateTxt mr-3">2020/11/01</p>
-              <p class="msgTxt">
-                老闆就愛跟風，2020/11/11 AM 11:11:11 限時限量釋出 11 張 1.1
-                折全品項優惠卷。
-              </p>
+    <nav>
+      <div v-if="scrollNum > 1">
+        <div :class="{ box: true, 'box-color': scrollNum > 5 }"></div>
+        <MainNavbarFixed />
+      </div>
+    </nav>
+    <header>
+      <div
+        class="cover"
+        :style="{ 'background-image': `url(${coverImgUrl})` }"
+      ></div>
+    </header>
+    <section id="news-section">
+      <div class="container">
+        <div class="row justify-content-center d-flex">
+          <div class="col-xl-9 col-12">
+            <h3 class="text-center mt-5 mb-3" style="letter-spacing: 2px;">
+              最新消息
+            </h3>
+            <ul id="msgUl">
+              <li class="d-flex">
+                <p class="dateTxt mr-3">2020/11/01</p>
+                <p class="msgTxt">
+                  老闆就愛跟風，2020/11/11 AM 11:11:11 限時限量釋出 11 張 1.1
+                  折全品項優惠卷。
+                </p>
+              </li>
+              <li class="d-flex">
+                <p class="dateTxt mr-3">2020/10/01</p>
+                <p class="msgTxt">
+                  雙十節檔期，國旗造型、國父造型蛋糕各 10 個預約開放中。
+                </p>
+              </li>
+              <li class="d-flex">
+                <p class="dateTxt mr-3">2020/09/25</p>
+                <p class="msgTxt">中秋佳節月圓人團圓，柚子口味蛋糕限時銷售。</p>
+              </li>
+              <li class="d-flex">
+                <p class="dateTxt mr-3">2020/07/10</p>
+                <p class="msgTxt">
+                  籌備一年終於開店了 94 爽，開幕慶 5 折優惠卷瘋搶
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="product-section">
+      <div id="fragmentBanner" class="mt-5 mb-5">商品專區</div>
+      <div class="container">
+        <div class="row justify-content-center d-flex">
+          <ul class="col-xl-10 col-12">
+            <li class="card flex-lg-row mb-4">
+              <div class="col-12 col-lg-5 p-0">
+                <div
+                  class="productImg"
+                  :style="{ 'background-image': `url(${popularImgUrl})` }"
+                >
+                  <div class="black-cover"></div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-7 card-body p-lg-5 m-lg-3">
+                <h5 class="card-title">熱門商品</h5>
+                <p class="card-text">
+                  店內最暢銷的熱門口味，想嘗試但怕踩雷的最佳選擇。
+                </p>
+                <a
+                  :href="`${publicPath}#/shop?tag=popular`"
+                  class="btn btn-primary"
+                  >來去看看</a
+                >
+              </div>
             </li>
-            <li class="d-flex">
-              <p class="dateTxt mr-3">2020/10/01</p>
-              <p class="msgTxt">
-                雙十節檔期，國旗造型、國父造型蛋糕各 10 個預約開放中。
-              </p>
+            <li class="card flex-lg-row-reverse mb-4">
+              <div class="col-12 col-lg-5 p-0">
+                <div
+                  class="productImg"
+                  :style="{ 'background-image': `url(${saleImgUrl})` }"
+                >
+                  <div class="black-cover"></div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-7 card-body p-lg-5 m-lg-3">
+                <h5 class="card-title">特價商品</h5>
+                <p class="card-text">
+                  特價是想要推廣，更優惠的價錢推薦你相同品質的四分之一蛋糕。
+                </p>
+                <a
+                  :href="`${publicPath}#/shop?tag=sale`"
+                  class="btn btn-primary"
+                  >手刀搶購去</a
+                >
+              </div>
             </li>
-            <li class="d-flex">
-              <p class="dateTxt mr-3">2020/09/25</p>
-              <p class="msgTxt">中秋佳節月圓人團圓，柚子口味蛋糕限時銷售。</p>
-            </li>
-            <li class="d-flex">
-              <p class="dateTxt mr-3">2020/07/10</p>
-              <p class="msgTxt">
-                籌備一年終於開店了 94 爽，開幕慶 5 折優惠卷瘋搶
-              </p>
+            <li class="card flex-lg-row mb-4">
+              <div class="col-12 col-lg-5 p-0">
+                <div
+                  class="productImg"
+                  :style="{ 'background-image': `url(${couponImgUrl})` }"
+                >
+                  <div class="black-cover"></div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-7 card-body p-lg-5 m-lg-3">
+                <h5 class="card-title">優惠卷</h5>
+                <p class="card-text">
+                  下單前記得找找看有沒有能用的優惠卷！
+                </p>
+                <a
+                  :href="`${publicPath}#/shop?tag=coupon`"
+                  class="btn btn-primary"
+                  >領阿哪次不領</a
+                >
+              </div>
             </li>
           </ul>
         </div>
       </div>
-    </div>
-    <div id="fragmentBanner" class="mt-5 mb-5">商品專區</div>
-    <div class="container">
-      <div class="row justify-content-center d-flex">
-        <div class="col-xl-10 col-12">
-          <div class="card flex-lg-row mb-4">
-            <div class="col-12 col-lg-5 p-0">
-              <div
-                class="productImg"
-                :style="{ 'background-image': `url(${popularImgUrl})` }"
-              >
-                <div class="black-cover"></div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-7 card-body p-lg-5 m-lg-3">
-              <h5 class="card-title">熱門商品</h5>
-              <p class="card-text">
-                店內最暢銷的熱門口味，想嘗試但怕踩雷的最佳選擇。
-              </p>
-              <a
-                :href="`${publicPath}#/shop?tag=popular`"
-                class="btn btn-primary"
-                >來去看看</a
-              >
-            </div>
-          </div>
-          <div class="card flex-lg-row-reverse mb-4">
-            <div class="col-12 col-lg-5 p-0">
-              <div
-                class="productImg"
-                :style="{ 'background-image': `url(${saleImgUrl})` }"
-              >
-                <div class="black-cover"></div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-7 card-body p-lg-5 m-lg-3">
-              <h5 class="card-title">特價商品</h5>
-              <p class="card-text">
-                特價是想要推廣，更優惠的價錢推薦你相同品質的四分之一蛋糕。
-              </p>
-              <a :href="`${publicPath}#/shop?tag=sale`" class="btn btn-primary"
-                >手刀搶購去</a
-              >
-            </div>
-          </div>
-          <div class="card flex-lg-row mb-4">
-            <div class="col-12 col-lg-5 p-0">
-              <div
-                class="productImg"
-                :style="{ 'background-image': `url(${couponImgUrl})` }"
-              >
-                <div class="black-cover"></div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-7 card-body p-lg-5 m-lg-3">
-              <h5 class="card-title">優惠卷</h5>
-              <p class="card-text">
-                下單前記得找找看有沒有能用的優惠卷！
-              </p>
-              <a
-                :href="`${publicPath}#/shop?tag=coupon`"
-                class="btn btn-primary"
-                >領阿哪次不領</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- footer -->
+    </section>
     <footer class="page-footer font-small cyan darken-3 text-center mt-5">
       <!-- Footer Elements -->
       <div class="container">
@@ -176,7 +184,6 @@
       </div>
       <!-- Copyright -->
     </footer>
-    <!-- Footer -->
   </div>
 </template>
 
