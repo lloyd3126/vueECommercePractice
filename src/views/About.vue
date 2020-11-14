@@ -21,28 +21,38 @@
               最新消息
             </h3>
             <ul id="msgUl">
-              <li class="d-flex">
-                <p class="dateTxt mr-3">2020/11/01</p>
-                <p class="msgTxt">
-                  老闆就愛跟風，2020/11/11 AM 11:11:11 限時限量釋出 11 張 1.1
-                  折全品項優惠卷。
-                </p>
+              <li>
+                <a :href="`${publicPath}#/shop?tag=coupon`" class="d-flex">
+                  <p class="dateTxt mr-3">2020/11/01</p>
+                  <p class="msgTxt">
+                    老闆就愛跟風，2020/11/11 AM 11:11:11 限時限量釋出 11 張 1.1
+                    折全品項優惠卷。
+                  </p>
+                </a>
               </li>
-              <li class="d-flex">
-                <p class="dateTxt mr-3">2020/10/01</p>
-                <p class="msgTxt">
-                  雙十節檔期，國旗造型、國父造型蛋糕各 10 個預約開放中。
-                </p>
+              <li>
+                <a :href="`${publicPath}#/shop?tag=coupon`" class="d-flex">
+                  <p class="dateTxt mr-3">2020/10/01</p>
+                  <p class="msgTxt">
+                    雙十節檔期，國旗造型、國父造型蛋糕各 10 個預約開放中。
+                  </p>
+                </a>
               </li>
-              <li class="d-flex">
-                <p class="dateTxt mr-3">2020/09/25</p>
-                <p class="msgTxt">中秋佳節月圓人團圓，柚子口味蛋糕限時銷售。</p>
+              <li>
+                <a :href="`${publicPath}#/shop?tag=coupon`" class="d-flex">
+                  <p class="dateTxt mr-3">2020/09/25</p>
+                  <p class="msgTxt">
+                    中秋佳節月圓人團圓，柚子口味蛋糕限時銷售。
+                  </p>
+                </a>
               </li>
-              <li class="d-flex">
-                <p class="dateTxt mr-3">2020/07/10</p>
-                <p class="msgTxt">
-                  籌備一年終於開店了 94 爽，開幕慶 5 折優惠卷瘋搶
-                </p>
+              <li>
+                <a :href="`${publicPath}#/shop?tag=coupon`" class="d-flex">
+                  <p class="dateTxt mr-3">2020/07/10</p>
+                  <p class="msgTxt">
+                    籌備一年終於開店了 94 爽，開幕慶 5 折優惠卷瘋搶
+                  </p>
+                </a>
               </li>
             </ul>
           </div>
@@ -287,9 +297,18 @@ export default {
 #msgUl {
   padding: 0;
 }
-#msgUl li {
+#msgUl > li {
   border-bottom: 1px solid #000;
+  list-style: none;
 }
+#msgUl > li > a {
+  text-decoration-line: none;
+  transition-duration: 0.15s;
+}
+#msgUl > li > a:hover {
+  margin-left: -20px;
+}
+
 .box {
   width: 100vw;
   height: 53px;
