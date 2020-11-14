@@ -8,10 +8,9 @@
       </div>
     </nav>
     <header>
-      <div
-        class="cover"
-        :style="{ 'background-image': `url(${coverImgUrl})` }"
-      ></div>
+      <div class="cover" :style="{ 'background-image': `url(${coverImgUrl})` }">
+        <i class="fas fa-angle-double-down" v-if="scrollNum < 1"></i>
+      </div>
     </header>
     <section id="news-section">
       <div class="container">
@@ -251,6 +250,9 @@ export default {
 </script>
 
 <style scoped>
+body {
+  overflow-x: hidden;
+}
 .productImg {
   height: 30vh;
   background: no-repeat center;
@@ -260,7 +262,6 @@ export default {
 .productImg:hover {
   background-size: 120%;
 }
-
 .productImg .black-cover {
   display: block;
   width: 100%;
@@ -328,6 +329,29 @@ export default {
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
+  position: relative;
+}
+.cover i {
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  top: 90%;
+  font-size: 3rem;
+  transform: translate(-50%, -50%);
+  animation-name: example;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes example {
+  0% {
+    top: 90%;
+  }
+  50% {
+    top: 92%;
+  }
+  100% {
+    top: 90%;
+  }
 }
 .page-footer {
   background-color: #eee;
