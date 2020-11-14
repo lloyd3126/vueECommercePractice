@@ -35,7 +35,7 @@
                 v-if="item.origin_price !== item.price"
                 >特價中</span
               >
-              <div class="h5">定價 {{ item.origin_price }} 元</div>
+              <h5>定價 {{ item.origin_price }} 元</h5>
             </div>
           </div>
         </div>
@@ -113,8 +113,18 @@ export default {
       this.like = !this.like;
       if (this.like) {
         this.$emit('sendProductDataOut', this.product, 'like');
+        this.$bus.$emit(
+          'message:push',
+          `將${this.product[0].title}加入收藏`,
+          'success'
+        );
       } else {
         this.$emit('sendProductDataOut', this.product, 'unlike');
+        this.$bus.$emit(
+          'message:push',
+          `將${this.product[0].title}移除收藏`,
+          'danger'
+        );
       }
     },
     getProduct(productName) {
@@ -132,6 +142,19 @@ export default {
         if (success) {
           vm.isLoading = false;
           vm.$bus.$emit('cart:update');
+          let temp = {};
+          this.product.map((e) => {
+            if (e.category == '6吋') {
+              temp[e.id] = ` ${qty} 個 6 吋${e.title}`;
+            } else {
+              temp[e.id] = ` ${qty} 個單片${e.title}`;
+            }
+          });
+          this.$bus.$emit(
+            'message:push',
+            `將${temp[product_id]}加入購物車`,
+            'success'
+          );
         }
       });
     },
