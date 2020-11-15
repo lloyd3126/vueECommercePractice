@@ -1,17 +1,20 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Login from '../views/Login.vue';
-import Cart from '../views/Cart.vue';
-import About from '../views/About.vue';
-import Dashboard from '../views/Dashboard.vue';
-import Products from '../views/Products.vue';
-import Product from '../views/Product.vue';
-import Orders from '../views/Orders.vue';
-import Coupons from '../views/Coupons.vue';
-import CustomerOrder from '../views/CustomerOrder.vue';
-import CustomerCheckout from '../views/CustomerCheckout.vue';
-import Main from '../views/Main.vue';
 import VueConfig from '../../vue.config.js';
+
+// frontend
+import Login from '../views/frontend/Login.vue';
+import Cart from '../views/frontend/Cart.vue';
+import Main from '../views/frontend/Main.vue';
+import About from '../views/frontend/About.vue';
+import Product from '../views/frontend/Product.vue';
+// backend
+import Dashboard from '../views/backend/Dashboard.vue';
+import Products from '../views/backend/Products.vue';
+import Orders from '../views/backend/Orders.vue';
+import Coupons from '../views/backend/Coupons.vue';
+import CustomerOrder from '../views/backend/CustomerOrder.vue';
+import CustomerCheckout from '../views/backend/CustomerCheckout.vue';
 
 Vue.use(VueRouter);
 
