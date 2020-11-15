@@ -9,7 +9,7 @@
       >
         <div class="card border-0 shadow-sm">
           <div
-            style="height: 150px; background-size: cover; background-position: center"
+            class="card-photo"
             :style="{ backgroundImage: `url(${product[0].imageUrl})` }"
           ></div>
           <div class="card-body">
@@ -130,9 +130,8 @@
               >
                 <h6 class="card-header">
                   <span
-                    class="badge badge-danger position-absolute"
+                    class="sale-tag badge badge-danger position-absolute"
                     v-if="item.origin_price !== item.price"
-                    style="left:10px"
                   >
                     特價中</span
                   >
@@ -146,10 +145,7 @@
                     售價 {{ item.price }} 元
                   </h5>
                   <h5 class="card-title" v-else>特價 {{ item.price }} 元</h5>
-                  <h6
-                    class="card-subtitle mb-2 text-muted"
-                    style="text-decoration-line: line-through; "
-                  >
+                  <h6 class="line-text card-subtitle mb-2 text-muted">
                     定價 {{ item.origin_price }} 元
                   </h6>
                   <div class="input-group mt-4">
@@ -506,4 +502,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.sale-tag {
+  left: 10px;
+}
+.line-text {
+  text-decoration-line: line-through;
+}
+.card-photo {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+}
+</style>

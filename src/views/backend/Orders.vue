@@ -24,7 +24,7 @@
             </p>
           </td>
           <td class="text-right">{{ order.total | currency }}</td>
-          <td v-if="order.is_paid == 'true'" style="color: green">已付款</td>
+          <td v-if="order.is_paid == 'true'" class="green-word">已付款</td>
           <td v-else>尚未付款</td>
           <td>
             <button
@@ -534,3 +534,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.green-word {
+  color: green;
+}
+</style>

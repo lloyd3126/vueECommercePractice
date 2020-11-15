@@ -4,14 +4,14 @@
     <div class="card border-0 ">
       <div class="position-absolute like-icon" @click="likeHandler">
         <i class="far fa-heart" v-if="!like"></i>
-        <i class="fas fa-heart" v-else style="color: #dc3545"></i>
+        <i class="fas fa-heart heart-color" v-else></i>
       </div>
       <a
         class="product-link"
         :href="`${publicPath}#/product/${product[0].title}`"
       >
         <div
-          style="height: 150px; background-size: cover; background-position: center"
+          class="card-photo"
           :style="{ backgroundImage: `url(${product[0].imageUrl})` }"
         ></div>
         <div class="card-body">
@@ -182,5 +182,13 @@ a.product-link * {
   font-size: 2rem;
   right: 10px;
   cursor: pointer;
+}
+.heart-color {
+  color: #dc3545;
+}
+.card-photo {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
 }
 </style>

@@ -36,9 +36,8 @@
             >
               <h6 class="card-header">
                 <span
-                  class="badge badge-danger position-absolute"
+                  class="sale-tag badge badge-danger position-absolute"
                   v-if="product.origin_price !== product.price"
-                  style="left:10px"
                 >
                   特價中</span
                 >
@@ -52,10 +51,7 @@
                   售價 {{ product.price }} 元
                 </h5>
                 <h5 class="card-title" v-else>特價 {{ product.price }} 元</h5>
-                <h6
-                  class="card-subtitle mb-2 text-muted"
-                  style="text-decoration-line: line-through; "
-                >
+                <h6 class="card-subtitle mb-2 text-muted line-text">
                   定價 {{ product.origin_price }} 元
                 </h6>
                 <div class="input-group mt-4">
@@ -248,5 +244,11 @@ export default {
 .footer-copyright a {
   background-color: #222;
   color: #eee;
+}
+.sale-tag {
+  left: 10px;
+}
+.line-text {
+  text-decoration-line: line-through;
 }
 </style>
