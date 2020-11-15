@@ -52,9 +52,27 @@
             </li>
             <li class="nav-item">
               <a
+                v-if="isLogin"
                 :href="`${publicPath}#/admin/products`"
                 class="mx-2 link-hover font-weight-bold text-dark nav-link "
                 >商品管理</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                v-if="!isLogin"
+                :href="`${publicPath}#/login`"
+                class="mx-2 link-hover font-weight-bold text-dark nav-link"
+                >登入</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                id="logout"
+                v-if="isLogin"
+                @click="logout"
+                class="mx-2 link-hover font-weight-bold text-dark nav-link "
+                >登出</a
               >
             </li>
           </ul>
@@ -72,17 +90,22 @@ export default {
       publicPath: process.env.BASE_URL,
     };
   },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+  },
   methods: {
     logout() {
-      const api = `${process.env.VUE_APP_APIPATH}/logout`;
       const vm = this;
-      this.$http.post(api, vm.user).then((response) => {
-        let { success } = response.data;
-        if (success) {
-          vm.$router.push('/login');
-        }
-      });
+      vm.$store.dispatch('logout');
     },
   },
 };
 </script>
+
+<style scope>
+a#logout {
+  cursor: pointer;
+}
+</style>

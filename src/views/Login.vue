@@ -39,6 +39,7 @@ export default {
   name: 'Login',
   data() {
     return {
+      publicPath: process.env.BASE_URL,
       user: {
         username: '',
         password: '',
@@ -50,12 +51,15 @@ export default {
   },
   methods: {
     signin() {
-      const api = `${process.env.VUE_APP_APIPATH}/admin/signin`;
       const vm = this;
-      this.$http.post(api, vm.user).then((response) => {
+      const api = `${process.env.VUE_APP_APIPATH}/admin/signin`;
+      vm.$store.commit('setIsLoading', true);
+      vm.$http.post(api, vm.user).then((response) => {
         let { success } = response.data;
         if (success) {
-          vm.$router.push('/admin/products');
+          vm.$store.commit('setisLogin', true);
+          vm.$store.commit('setIsLoading', false);
+          vm.$router.push('/');
         }
       });
     },
