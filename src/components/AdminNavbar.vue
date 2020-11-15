@@ -23,14 +23,9 @@ export default {
   },
   methods: {
     logout() {
-      const api = `${process.env.VUE_APP_APIPATH}/logout`;
       const vm = this;
-      this.$http.post(api, vm.user).then((response) => {
-        let { success } = response.data;
-        if (success) {
-          vm.$router.push('/login');
-        }
-      });
+      vm.$store.dispatch('logout');
+      vm.$router.push('/');
     },
   },
 };
