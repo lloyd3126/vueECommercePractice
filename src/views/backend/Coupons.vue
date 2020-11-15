@@ -457,30 +457,12 @@ export default {
         this.cleanModalInput();
       }
     },
-    finshAllModalInput() {
-      // const { due_date, percent, title, is_enabled } = this.tempCoupon;
-      // if (
-      //   title != '' &&
-      //   category != '' &&
-      //   origin_price != '' &&
-      //   price != '' &&
-      //   unit != '' &&
-      //   imageUrl != '' &&
-      //   description != '' &&
-      //   content != ''
-      // ) {
-      //   return true;
-      // } else {
-      //   return false;
-      // }
-    },
     updateCoupon() {
-      // this.finshAllModalInput()
+      const vm = this;
       if (true) {
-        if (this.requestMethods == 'put') {
+        if (vm.requestMethods == 'put') {
           // 編輯
           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${this.tempCoupon.id}`;
-          const vm = this;
           const { title, is_enabled, percent } = vm.tempCoupon;
           const data = {
             data: {
@@ -503,7 +485,6 @@ export default {
         } else {
           //新增
           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
-          const vm = this;
           const { title, is_enabled, percent, code } = vm.tempCoupon;
           const data = {
             data: {
@@ -514,14 +495,14 @@ export default {
               due_date: vm.dueDate,
             },
           };
-          this.$http.post(api, data).then((response) => {
+          vm.$http.post(api, data).then((response) => {
             const { success } = response.data;
             if (success) {
               $('#couponModal').modal('hide');
-              this.cleanModalInput();
-              this.getCoupons();
+              vm.cleanModalInput();
+              vm.getCoupons();
             } else {
-              this.getCoupons();
+              vm.getCoupons();
             }
           });
         }
@@ -556,40 +537,38 @@ export default {
       this.updateCoupon();
     },
     copyCoupons() {
-      const tempCouponsAmount = this.tempCoupons.length;
+      const vm = this;
+      const tempCouponsAmount = vm.tempCoupons.length;
       if (tempCouponsAmount !== 0) {
         let successAmount = 0;
         const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
-        const vm = this;
         vm.isLoading = true;
-        this.tempCoupons.forEach((coupon) => {
+        vm.tempCoupons.forEach((coupon) => {
           const { title, is_enabled, percent, code, due_date } = coupon;
-          this.cleanModalInput();
-          this.tempCoupon = { ...coupon };
-          this.tempCoupon.dueDateYear = this.changeTimestamp(due_date).split(
-            '/'
-          )[0];
-          this.tempCoupon.dueDateMonth = this.changeTimestamp(due_date).split(
-            '/'
-          )[1];
-          this.tempCoupon.dueDateDay = this.changeTimestamp(due_date).split(
-            '/'
-          )[2];
-          this.$http.post(api, { data: this.tempCoupon }).then((response) => {
+          vm.cleanModalInput();
+          vm.tempCoupon = { ...coupon };
+          vm.tempCoupon.dueDateYear = vm
+            .changeTimestamp(due_date)
+            .split('/')[0];
+          vm.tempCoupon.dueDateMonth = vm
+            .changeTimestamp(due_date)
+            .split('/')[1];
+          vm.tempCoupon.dueDateDay = vm.changeTimestamp(due_date).split('/')[2];
+          vm.$http.post(api, { data: vm.tempCoupon }).then((response) => {
             const { success } = response.data;
             if (success) {
               successAmount += 1;
               if (successAmount == tempCouponsAmount) {
-                this.getCoupons();
+                vm.getCoupons();
               }
             } else {
-              this.getCoupons();
+              vm.getCoupons();
             }
           });
         });
-        this.tempCoupons = [];
+        vm.tempCoupons = [];
       } else {
-        this.$bus.$emit('message:push', '請至少勾選一個商品', 'danger');
+        vm.$bus.$emit('message:push', '請至少勾選一個商品', 'danger');
       }
     },
     openDeleteCouponModal(couponId) {
@@ -607,29 +586,29 @@ export default {
       }
     },
     deleteCoupons() {
-      const tempCouponsAmount = this.tempCoupons.length;
+      const vm = this;
+      const tempCouponsAmount = vm.tempCoupons.length;
       if (tempCouponsAmount !== 0) {
         let successAmount = 0;
-        const vm = this;
         vm.isLoading = true;
         $('#deleteCouponsModal').modal('hide');
-        this.tempCoupons.forEach((coupon) => {
+        vm.tempCoupons.forEach((coupon) => {
           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${coupon.id}`;
-          this.$http.delete(api).then((response) => {
+          vm.$http.delete(api).then((response) => {
             const { success } = response.data;
             if (success) {
               successAmount += 1;
               if (successAmount == tempCouponsAmount) {
-                this.getCoupons();
+                vm.getCoupons();
               }
             } else {
-              this.getCoupons();
+              vm.getCoupons();
             }
           });
         });
-        this.tempCoupons = [];
+        vm.tempCoupons = [];
       } else {
-        this.$bus.$emit('message:push', '請至少勾選一個商品', 'danger');
+        vm.$bus.$emit('message:push', '請至少勾選一個商品', 'danger');
       }
     },
   },

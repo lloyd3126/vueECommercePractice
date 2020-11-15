@@ -383,7 +383,7 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         const { products, success } = response.data;
         if (success) {
           let newList = {};
@@ -412,10 +412,10 @@ export default {
       $('#productModal').modal('show');
     },
     addCart(product_id, qty = 1) {
+      const vm = this;
       const data = {
         data: { product_id, qty },
       };
-      const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
       vm.$http.post(api, data).then((response) => {
@@ -450,20 +450,20 @@ export default {
       });
     },
     useCoupon(code) {
+      const vm = this;
       const data = {
         data: { code },
       };
-      const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
       vm.isLoading = true;
       vm.$http.post(api, data).then((response) => {
         const { success, data, message } = response.data;
         if (success) {
-          this.$bus.$emit('message:push', message, 'success');
+          vm.$bus.$emit('message:push', message, 'success');
           vm.getCart();
         } else {
           vm.isLoading = false;
-          this.$bus.$emit('message:push', message, 'danger');
+          vm.$bus.$emit('message:push', message, 'danger');
         }
         vm.couponCode = '';
       });

@@ -131,10 +131,10 @@ export default {
       this.$router.push(`/product/${productName}`);
     },
     addCart(product_id, qty = 1) {
+      const vm = this;
       const data = {
         data: { product_id, qty },
       };
-      const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
       vm.$http.post(api, data).then((response) => {
@@ -143,14 +143,14 @@ export default {
           vm.isLoading = false;
           vm.$bus.$emit('cart:update');
           let temp = {};
-          this.product.map((e) => {
+          vm.product.map((e) => {
             if (e.category == '6吋') {
               temp[e.id] = ` ${qty} 個 6 吋${e.title}`;
             } else {
               temp[e.id] = ` ${qty} 個單片${e.title}`;
             }
           });
-          this.$bus.$emit(
+          vm.$bus.$emit(
             'message:push',
             `將${temp[product_id]}加入購物車`,
             'success'

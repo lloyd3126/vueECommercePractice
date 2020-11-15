@@ -450,6 +450,7 @@ export default {
       this.getOrders();
     },
     getOrders() {
+      const vm = this;
       $('#orderModal').modal('hide');
       this.tempOrder = {
         create_at: null,
@@ -468,7 +469,6 @@ export default {
         },
         num: 0,
       };
-      const vm = this;
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/orders?page=${vm.currentPage}`;
       vm.$http.get(api).then((response) => {
@@ -481,11 +481,11 @@ export default {
       const vm = this;
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products/`;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         response.data.products.forEach(
           (product) => (vm.products[product.id] = { ...product })
         );
-        this.getOrders();
+        vm.getOrders();
       });
     },
     changeTimestamp(timestamp) {

@@ -106,7 +106,7 @@ export default {
         const { message, success } = response.data;
         if (success) {
           vm.$bus.$emit('message:push', message, 'success');
-          this.getOrder();
+          vm.getOrder();
         }
       });
     },

@@ -435,7 +435,7 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${vm.currentPage}`;
       vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         vm.products = response.data.products;
         vm.pagination = { ...response.data.pagination };
         vm.isLoading = false;
@@ -493,53 +493,53 @@ export default {
       }
     },
     updateProduct() {
-      if (this.finshAllModalInput()) {
-        if (this.requestMethods == 'put') {
+      const vm = this;
+      if (vm.finshAllModalInput()) {
+        if (vm.requestMethods == 'put') {
           // 編輯
-          const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${this.tempProduct.id}`;
-          const vm = this;
-          this.$http.put(api, { data: vm.tempProduct }).then((response) => {
+          const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
+          vm.$http.put(api, { data: vm.tempProduct }).then((response) => {
             const { success } = response.data;
             if (success) {
               $('#productModal').modal('hide');
-              this.cleanModalInput();
-              this.getProducts();
+              vm.cleanModalInput();
+              vm.getProducts();
             } else {
-              this.getProducts();
+              vm.getProducts();
             }
           });
         } else {
           //新增
           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
-          const vm = this;
-          this.$http.post(api, { data: vm.tempProduct }).then((response) => {
+          vm.$http.post(api, { data: vm.tempProduct }).then((response) => {
             const { success } = response.data;
             if (success) {
               $('#productModal').modal('hide');
-              this.cleanModalInput();
-              this.getProducts();
+              vm.cleanModalInput();
+              vm.getProducts();
             } else {
-              this.getProducts();
+              vm.getProducts();
             }
           });
         }
       }
     },
     deleteProduct(productId) {
+      const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${productId}`;
-      this.$http.delete(api).then((response) => {
+      vm.$http.delete(api).then((response) => {
         const { success } = response.data;
         if (success) {
           $('#deleteProductModal').modal('hide');
-          this.getProducts();
+          vm.getProducts();
         } else {
-          this.getProducts();
+          vm.getProducts();
         }
       });
     },
     uploadFile() {
-      const uploadedFile = this.$refs.files.files[0];
       const vm = this;
+      const uploadedFile = vm.$refs.files.files[0];
       vm.status.fileUploading = true;
       const formData = new FormData();
       formData.append('file-to-upload', uploadedFile);
@@ -549,18 +549,18 @@ export default {
           'Content-Type': 'multipart/form-data',
         },
       };
-      this.$http.post(api, formData, headers).then((response) => {
+      vm.$http.post(api, formData, headers).then((response) => {
         const { data } = response;
         if (data.success) {
           vm.$set(vm.tempProduct, 'imageUrl', data.imageUrl);
           vm.status.fileUploading = false;
-          this.$bus.$emit('message:push', '圖片上傳成功', 'success');
+          vm.$bus.$emit('message:push', '圖片上傳成功', 'success');
         } else {
           vm.status.fileUploading = false;
           if (typeof response.data.message == 'string') {
-            this.$bus.$emit('message:push', response.data.message, 'danger');
+            vm.$bus.$emit('message:push', response.data.message, 'danger');
           } else {
-            this.$bus.$emit('message:push', '檔案過大', 'danger');
+            vm.$bus.$emit('message:push', '檔案過大', 'danger');
           }
         }
       });
@@ -591,28 +591,28 @@ export default {
       this.updateProduct();
     },
     copyProducts() {
-      const tempProductsAmount = this.tempProducts.length;
+      const vm = this;
+      const tempProductsAmount = vm.tempProducts.length;
       if (tempProductsAmount !== 0) {
         let successAmount = 0;
         const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
-        const vm = this;
         vm.isLoading = true;
-        this.tempProducts.forEach((product) => {
-          this.$http.post(api, { data: product }).then((response) => {
+        vm.tempProducts.forEach((product) => {
+          vm.$http.post(api, { data: product }).then((response) => {
             const { success } = response.data;
             if (success) {
               successAmount += 1;
               if (successAmount == tempProductsAmount) {
-                this.getProducts();
+                vm.getProducts();
               }
             } else {
-              this.getProducts();
+              vm.getProducts();
             }
           });
         });
-        this.tempProducts = [];
+        vm.tempProducts = [];
       } else {
-        this.$bus.$emit('message:push', '請至少勾選一個商品', 'danger');
+        vm.$bus.$emit('message:push', '請至少勾選一個商品', 'danger');
       }
     },
     openDeleteProductModal(productId) {
@@ -630,29 +630,29 @@ export default {
       }
     },
     deleteProducts() {
-      const tempProductsAmount = this.tempProducts.length;
+      const vm = this;
+      const tempProductsAmount = vm.tempProducts.length;
       if (tempProductsAmount !== 0) {
         let successAmount = 0;
-        const vm = this;
         vm.isLoading = true;
         $('#deleteProductsModal').modal('hide');
-        this.tempProducts.forEach((product) => {
+        vm.tempProducts.forEach((product) => {
           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${product.id}`;
-          this.$http.delete(api).then((response) => {
+          vm.$http.delete(api).then((response) => {
             const { success } = response.data;
             if (success) {
               successAmount += 1;
               if (successAmount == tempProductsAmount) {
-                this.getProducts();
+                vm.getProducts();
               }
             } else {
-              this.getProducts();
+              vm.getProducts();
             }
           });
         });
-        this.tempProducts = [];
+        vm.tempProducts = [];
       } else {
-        this.$bus.$emit('message:push', '請至少勾選一個商品', 'danger');
+        vm.$bus.$emit('message:push', '請至少勾選一個商品', 'danger');
       }
     },
   },
