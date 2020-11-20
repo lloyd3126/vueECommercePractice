@@ -44,11 +44,12 @@
             </li>
             <li class="nav-item">
               <a
-                :href="`${publicPath}#/cart`"
-                v-if="$route.path !== '/cart'"
+                :href="`${publicPath}#/shop?tag=cart`"
+                v-if="$route.path !== '/shop'"
                 class="mx-2 link-hover font-weight-bold text-dark nav-link "
-                >購物車</a
-              >
+                >購物車
+                <span class="badge badge-danger">{{ cartsInVuexLength }}</span>
+              </a>
             </li>
             <li class="nav-item">
               <a
@@ -83,6 +84,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import $ from 'jquery';
 export default {
   data() {
@@ -94,11 +96,18 @@ export default {
     isLogin() {
       return this.$store.state.isLogin;
     },
+    cartsInVuexLength() {
+      return this.$store.getters.cartsInVuexLength;
+    },
   },
   methods: {
     logout() {
       const vm = this;
       vm.$store.dispatch('logout');
+    },
+    getCart() {
+      const vm = this;
+      vm.$store.dispatch('getCart');
     },
   },
 };

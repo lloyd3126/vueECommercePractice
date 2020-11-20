@@ -108,6 +108,11 @@ export default {
   created() {
     this.like = Object.keys(this.likeProducts).includes(this.product[0].title);
   },
+  computed: {
+    products() {
+      return this.$store.state.products;
+    },
+  },
   methods: {
     likeHandler() {
       this.like = !this.like;
@@ -130,33 +135,14 @@ export default {
     getProduct(productName) {
       this.$router.push(`/product/${productName}`);
     },
-    addCart(product_id, qty = 1) {
+    addCart(productId, qty = 1) {
       const vm = this;
-      const data = {
-        data: { product_id, qty },
-      };
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.isLoading = true;
-      vm.$http.post(api, data).then((response) => {
-        const { success } = response.data;
-        if (success) {
-          vm.isLoading = false;
-          vm.$bus.$emit('cart:update');
-          let temp = {};
-          vm.product.map((e) => {
-            if (e.category == '6吋') {
-              temp[e.id] = ` ${qty} 個 6 吋${e.title}`;
-            } else {
-              temp[e.id] = ` ${qty} 個單片${e.title}`;
-            }
-          });
-          vm.$bus.$emit(
-            'message:push',
-            `將${temp[product_id]}加入購物車`,
-            'success'
-          );
-        }
-      });
+      vm.$store.commit('setCartsInVuexData', { productId, qty });
+      vm.$bus.$emit(
+        'message:push',
+        `將${vm.products[productId].category}${vm.products[productId].title}加入購物車`,
+        'success'
+      );
     },
   },
 };

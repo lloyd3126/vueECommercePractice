@@ -85,13 +85,18 @@
                   'col-4': true,
                   'hover-red-active': tag === 'cart',
                 }"
-                @click="tag = 'cart'"
+                @click="changeToCartPage"
               >
                 <i class="fas fa-shopping-cart"></i>
                 購物車
-                <span class="badge badge-secondary ml-1">{{
-                  cartData.carts.length || 0
-                }}</span>
+                <span
+                  :class="{
+                    badge: true,
+                    'badge-danger': tag !== 'cart',
+                    'badge-secondary': tag === 'cart',
+                  }"
+                  >{{ cartsInVuexLength }}</span
+                >
               </div>
               <div
                 :class="{
@@ -163,13 +168,18 @@
                 'col-2': true,
                 'hover-red-active': tag === 'cart',
               }"
-              @click="tag = 'cart'"
+              @click="changeToCartPage"
             >
               <i class="fas fa-shopping-cart"></i>
               購物車
-              <span class="badge badge-secondary ml-1">{{
-                cartData.carts.length || 0
-              }}</span>
+              <span
+                :class="{
+                  badge: true,
+                  'badge-danger': tag !== 'cart',
+                  'badge-secondary': tag === 'cart',
+                }"
+                >{{ cartsInVuexLength }}</span
+              >
             </div>
             <div
               :class="{
@@ -212,8 +222,344 @@
             </div>
             <!-- cart -->
             <div class="row justify-content-center" v-if="tag === 'cart'">
+              <div
+                id="list-group-in-cart"
+                class="d-md-block d-none col-12 col-md-4"
+              >
+                <div class="list-group mb-2">
+                  <a
+                    href="#"
+                    :class="{
+                      'list-group-item': true,
+                      'list-group-item-action': true,
+                      active: tagInCart === 'cart',
+                    }"
+                    @click.prevent="tagInCart = 'cart'"
+                  >
+                    目前購物車內的商品
+                  </a>
+                </div>
+                <div
+                  class="list-group"
+                  v-if="Object.keys(orderStatusList).length !== 0"
+                >
+                  <a
+                    href="#"
+                    class="list-group-item list-group-item-action disabled"
+                    >--- 待結帳的訂單編號 ---</a
+                  >
+                  <a
+                    href="#"
+                    v-for="(orderStatus, key) in orderStatusList"
+                    :key="key"
+                    @click.prevent="tagInCart = orderStatus.id"
+                    :class="{
+                      'list-group-item': true,
+                      'list-group-item-action': true,
+                      active: tagInCart === orderStatus.id,
+                    }"
+                  >
+                    <span
+                      class="badge badge-danger mr-1"
+                      v-if="!orderStatus.payStatus"
+                      >尚未付款</span
+                    >
+                    <span
+                      class="badge badge-success mr-1"
+                      v-if="orderStatus.payStatus"
+                      >成功付款</span
+                    >
+                    {{ orderStatus.id }}
+                  </a>
+                </div>
+                <button
+                  type="button"
+                  :class="{
+                    btn: true,
+                    'btn-secondary': true,
+                    'btn-md': true,
+                    'btn-block': true,
+                    disabled: false,
+                    'mt-2': true,
+                  }"
+                  @click="clearAllUnpaidOrders"
+                  v-if="Object.keys(orderStatusList).length !== 0"
+                >
+                  清除所有未付款的訂單
+                </button>
+              </div>
+
+              <div id="order-section" class="col-12 col-md-8">
+                <div
+                  class="accordion"
+                  id="accordionExample"
+                  v-if="tagInCart == 'cart'"
+                >
+                  <div id="cart-in-accordion" class="card">
+                    <div class="card-header" id="headingOne">
+                      <h5 class="mb-0">
+                        <button
+                          class="btn btn-link"
+                          type="button"
+                          data-toggle="collapse"
+                          data-target="#collapseOne"
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                        >
+                          步驟１ 確認購物車
+                        </button>
+                      </h5>
+                    </div>
+
+                    <div
+                      id="collapseOne"
+                      :class="{ collapse: true, show: collapseStatus === 1 }"
+                      aria-labelledby="headingOne"
+                      data-parent="#accordionExample"
+                    >
+                      <div class="card-body">
+                        <table class="table">
+                          <thead>
+                            <th></th>
+                            <th>品名</th>
+                            <th>單價</th>
+                            <th>數量</th>
+                          </thead>
+                          <tbody>
+                            <tr
+                              v-for="item in cartDataFromAjax.carts"
+                              :key="item.id"
+                            >
+                              <td class="align-middle">
+                                <button
+                                  type="button"
+                                  class="btn btn-outline-danger btn-sm"
+                                  @click="delCart(item.id)"
+                                >
+                                  <i class="far fa-trash-alt"></i>
+                                </button>
+                              </td>
+                              <td class="align-middle">
+                                {{ item.product.category
+                                }}{{ item.product.title }}
+                                <div class="text-success" v-if="item.coupon">
+                                  已套用優惠券：{{ item.coupon.code }}
+                                </div>
+                              </td>
+                              <td class="align-middle text-right">
+                                {{ item.final_total }}
+                              </td>
+                              <td class="align-middle">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="0"
+                                  aria-label="Amount"
+                                  aria-describedby="button-addon2"
+                                  min="1"
+                                  max="99"
+                                  :value="cartsInVuex[item.product_id]"
+                                  :data-id="item.product_id"
+                                  @input="updateQty"
+                                />
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td colspan="3" class="text-right">總計</td>
+                              <td class="text-right">
+                                {{ cartDataFromAjax.total }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colspan="3" class="text-right text-success">
+                                折扣價
+                              </td>
+                              <td class="text-right text-success">
+                                {{ cartDataFromAjax.final_total }}
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                        <div class="input-group mb-3 input-group-sm">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="請輸入優惠碼"
+                            v-model="couponCode"
+                          />
+                          <div class="input-group-append">
+                            <button
+                              class="btn btn-outline-secondary"
+                              type="button"
+                              @click="useCoupon(couponCode)"
+                            >
+                              套用優惠碼
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="order-info-in-accordion" class="card">
+                    <div class="card-header" id="headingTwo">
+                      <h5 class="mb-0">
+                        <button
+                          class="btn btn-link collapsed"
+                          type="button"
+                          data-toggle="collapse"
+                          data-target="#collapseTwo"
+                          aria-expanded="false"
+                          aria-controls="collapseTwo"
+                          @click="setCart"
+                        >
+                          步驟２ 填寫結帳資訊
+                        </button>
+                      </h5>
+                    </div>
+                    <div
+                      id="collapseTwo"
+                      :class="{ collapse: true, show: collapseStatus !== 1 }"
+                      aria-labelledby="headingTwo"
+                      data-parent="#accordionExample"
+                    >
+                      <div class="card-body">
+                        <ValidationObserver
+                          v-slot="{ invalid }"
+                          class="my-4 row justify-content-center"
+                          ref="observer"
+                        >
+                          <form class="col-12" @submit.prevent="createOrder">
+                            <h3 class="text-center mb-4">2. 填寫結帳資訊</h3>
+                            <div class="form-group">
+                              <label for="useremail">Email</label>
+                              <ValidationProvider
+                                rules="required|email"
+                                v-slot="{ errors }"
+                              >
+                                <input
+                                  type="text"
+                                  :class="{
+                                    'form-control': true,
+                                    'is-invalid': errors[0],
+                                  }"
+                                  name="email"
+                                  id="useremail"
+                                  v-model="form.user.email"
+                                  placeholder="請輸入 Email"
+                                  required
+                                />
+                                <span class="text-danger">{{ errors[0] }}</span>
+                              </ValidationProvider>
+                              <span class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                              <label for="username">收件人姓名</label>
+                              <ValidationProvider
+                                rules="required"
+                                v-slot="{ errors }"
+                              >
+                                <input
+                                  type="text"
+                                  :class="{
+                                    'form-control': true,
+                                    'is-invalid': errors[0],
+                                  }"
+                                  name="name"
+                                  id="username"
+                                  v-model="form.user.name"
+                                  placeholder="輸入姓名"
+                                  required
+                                />
+                                <span class="text-danger">{{ errors[0] }}</span>
+                              </ValidationProvider>
+                            </div>
+                            <div class="form-group">
+                              <label for="usertel">收件人電話</label>
+                              <ValidationProvider
+                                rules="required|numeric"
+                                v-slot="{ errors }"
+                              >
+                                <input
+                                  type="tel"
+                                  :class="{
+                                    'form-control': true,
+                                    'is-invalid': errors[0],
+                                  }"
+                                  name="tel"
+                                  id="usertel"
+                                  v-model="form.user.tel"
+                                  placeholder="請輸入電話"
+                                  required
+                                />
+                                <span class="text-danger">{{ errors[0] }}</span>
+                              </ValidationProvider>
+                            </div>
+                            <div class="form-group">
+                              <label for="useraddress">收件人地址</label>
+                              <ValidationProvider
+                                rules="required"
+                                v-slot="{ errors }"
+                              >
+                                <input
+                                  type="text"
+                                  :class="{
+                                    'form-control': true,
+                                    'is-invalid': errors[0],
+                                  }"
+                                  name="address"
+                                  id="useraddress"
+                                  v-model="form.user.address"
+                                  placeholder="請輸入地址"
+                                  required
+                                />
+                                <span class="text-danger">{{ errors[0] }}</span>
+                              </ValidationProvider>
+                            </div>
+                            <div class="form-group">
+                              <label for="comment">留言</label>
+                              <textarea
+                                name=""
+                                id="comment"
+                                class="form-control"
+                                cols="30"
+                                rows="10"
+                                v-model="form.message"
+                              ></textarea>
+                            </div>
+                            <div class="text-right">
+                              <button
+                                type="submit"
+                                :disabled="invalid"
+                                class="btn btn-danger"
+                              >
+                                送出訂單
+                              </button>
+                            </div>
+                          </form>
+                        </ValidationObserver>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  v-for="(orderStatus, key) in orderStatusList"
+                  :key="key"
+                  :id="`wait-for-payment-section${key}`"
+                >
+                  <div v-if="tagInCart === orderStatus.id">
+                    <MainCustomerCheckout
+                      :orderStatus="orderStatus"
+                      @payOrNot="checkPayOrNot"
+                    ></MainCustomerCheckout>
+                  </div>
+                </div>
+              </div>
+
               <!-- cart -->
-              <div class="col-12 col-md-8">
+              <!-- <div class="col-12 col-md-8">
                 <h3 class="text-center mt-3">1. 加入購物車</h3>
                 <table class="table mt-4">
                   <thead>
@@ -223,7 +569,7 @@
                     <th>單價</th>
                   </thead>
                   <tbody>
-                    <tr v-for="item in cartData.carts" :key="item.id">
+                    <tr v-for="item in cartDataFromAjax.carts" :key="item.id">
                       <td class="align-middle">
                         <button
                           type="button"
@@ -250,14 +596,14 @@
                   <tfoot>
                     <tr>
                       <td colspan="3" class="text-right">總計</td>
-                      <td class="text-right">{{ cartData.total }}</td>
+                      <td class="text-right">{{ cartDataFromAjax.total }}</td>
                     </tr>
                     <tr>
                       <td colspan="3" class="text-right text-success">
                         折扣價
                       </td>
                       <td class="text-right text-success">
-                        {{ cartData.final_total }}
+                        {{ cartDataFromAjax.final_total }}
                       </td>
                     </tr>
                   </tfoot>
@@ -279,9 +625,9 @@
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <!-- orderInfo -->
-              <div class="col-12 col-md-8">
+              <!-- <div class="col-12 col-md-8">
                 <ValidationObserver
                   v-slot="{ invalid }"
                   class="my-4 row justify-content-center"
@@ -390,9 +736,9 @@
                     </div>
                   </form>
                 </ValidationObserver>
-              </div>
+              </div> -->
               <!-- CustomerCheckout -->
-              <div
+              <!-- <div
                 class="col-12 col-md-8 mb-4"
                 v-if="Object.keys(orderStatusList).length !== 0"
               >
@@ -441,7 +787,6 @@
                       data-parent="#accordion"
                     >
                       <div class="card-body">
-                        <!-- orderId -->
                         <MainCustomerCheckout
                           :orderStatus="orderStatus"
                           @payOrNot="checkPayOrNot"
@@ -464,7 +809,7 @@
                 >
                   清除所有未付款的訂單
                 </button>
-              </div>
+              </div> -->
             </div>
             <!-- coupon -->
             <div
@@ -561,6 +906,7 @@ import Alert from '@/components/Alert';
 import MainNavbar from '@/components/MainNavbar';
 import ProductBox from '@/components/ProductBox';
 import MainCustomerCheckout from '@/components/MainCustomerCheckout';
+import $ from 'jquery';
 
 export default {
   components: {
@@ -595,7 +941,9 @@ export default {
       },
       likeProducts: [],
       tag: 'total',
+      tagInCart: 'cart',
       orderStatusList: {},
+      collapseStatus: 1,
     };
   },
   computed: {
@@ -639,11 +987,33 @@ export default {
     isLoading() {
       return this.$store.state.isLoading;
     },
-    cartData() {
-      return this.$store.state.cartData;
+    cartDataFromAjax() {
+      return this.$store.state.cartDataFromAjax;
+    },
+    cartsInVuex() {
+      return this.$store.state.cartsInVuex;
+    },
+    cartsInVuexLength() {
+      return this.$store.getters.cartsInVuexLength;
     },
   },
   methods: {
+    setCart() {
+      const vm = this;
+      if (vm.cartsInVuexLength === 0) {
+        return;
+      }
+      vm.$store.dispatch('setCart');
+    },
+    updateQty(e) {
+      let qtyData = { id: e.target.dataset.id, val: e.target.value };
+      this.$store.commit('updateQty', qtyData);
+    },
+    changeToCartPage() {
+      const vm = this;
+      vm.tag = 'cart';
+      vm.$store.dispatch('setCart');
+    },
     copyCouponCode() {
       this.$bus.$emit(
         'message:push',
@@ -656,6 +1026,7 @@ export default {
     },
     createOrder() {
       const vm = this;
+      vm.collapseStatus = 2;
       const data = {
         data: vm.form,
       };
@@ -664,6 +1035,7 @@ export default {
       vm.$http.post(api, data).then((response) => {
         const { success, message, orderId } = response.data;
         if (success) {
+          vm.collapseStatus = 1;
           let orderIds = localStorage.getItem('orderIds');
           if (orderIds == null || orderIds == '') {
             localStorage.setItem('orderIds', `${orderId}`);
@@ -675,7 +1047,7 @@ export default {
             `${message}，訂單編號為 ${orderId}`,
             'success'
           );
-          vm.$store.dispatch('getCart');
+          vm.$store.dispatch('getCart', { loadingEffect: false });
           vm.form = {
             user: {
               name: '',
@@ -689,7 +1061,11 @@ export default {
           let temp = {};
           temp[orderId] = { id: orderId, show: false, payStatus: false };
           vm.orderStatusList = { ...vm.orderStatusList, ...temp };
+          vm.$store.commit('clearCartsInVuexData');
+          vm.tagInCart = orderId;
+          vm.$store.commit('setIsLoading', false);
         } else {
+          vm.collapseStatus = 1;
           vm.$store.commit('setIsLoading', false);
           vm.$bus.$emit('message:push', message, 'danger');
         }
@@ -703,7 +1079,8 @@ export default {
       vm.$http.delete(api).then((response) => {
         const { success } = response.data;
         if (success) {
-          vm.$store.dispatch('getCart');
+          vm.$store.commit('deleteProductInVuexCarts', { id });
+          vm.$store.dispatch('getCart', { loadingEffect: false });
           vm.$store.commit('setIsLoading', false);
         }
       });
@@ -719,26 +1096,12 @@ export default {
         const { success, data, message } = response.data;
         if (success) {
           vm.$bus.$emit('message:push', message, 'success');
-          vm.$store.dispatch('getCart');
+          vm.$store.dispatch('getCart', { loadingEffect: false });
         } else {
           vm.$store.commit('setIsLoading', false);
           vm.$bus.$emit('message:push', message, 'danger');
         }
         vm.couponCode = '';
-      });
-    },
-    addCart(product_id, qty = 1) {
-      const vm = this;
-      const data = {
-        data: { product_id, qty },
-      };
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$store.commit('setIsLoading', true);
-      vm.$http.post(api, data).then((response) => {
-        const { success } = response.data;
-        if (success) {
-          vm.$store.dispatch('getCart');
-        }
       });
     },
     setProductDataHere(product, btnName) {
@@ -805,12 +1168,13 @@ export default {
   },
   created() {
     const vm = this;
+    vm.$store.dispatch('getProducts', { loadingEffect: false });
     if (vm.$route.query.tag) {
       vm.tag = vm.$route.query.tag;
     }
     window.scrollTo(0, 0);
     vm.getProducts();
-    vm.$store.dispatch('getCart');
+    vm.$store.dispatch('getCart', { loadingEffect: false });
     let orderIds = localStorage.getItem('orderIds');
     if (orderIds != null && orderIds != '') {
       let orderIdArr = orderIds.split(', ');
@@ -841,7 +1205,7 @@ export default {
       });
     }
     vm.$bus.$on('cart:update', () => {
-      vm.$store.dispatch('getCart');
+      vm.$store.dispatch('getCart', { loadingEffect: false });
     });
   },
 };

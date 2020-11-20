@@ -180,16 +180,20 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
       products: [{ imageUrl: '' }],
       productName: '',
     };
+  },
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading;
+    },
   },
   methods: {
     getProducts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      vm.isLoading = true;
+      vm.$store.commit('setIsLoading', true);
       vm.$http.get(api).then((response) => {
         const { products, success } = response.data;
         if (success) {
@@ -204,34 +208,20 @@ export default {
             }
           });
         }
-        vm.isLoading = false;
+        vm.$store.commit('setIsLoading', false);
       });
     },
-    addCart(product_id, qty) {
+    addCart(productId, qty) {
       const vm = this;
-      if (qty < 1) {
-        return;
-      }
-      const data = {
-        data: { product_id, qty },
-      };
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.isLoading = true;
-      vm.$http.post(api, data).then((response) => {
-        const { success } = response.data;
-        if (success) {
-          vm.products.forEach((product) => {
-            product.amount = 1;
-          });
-          vm.isLoading = false;
-        }
-      });
+      vm.$store.commit('setCartsInVuexData', { productId, qty });
+      // vm.$store.dispatch('setCart');
     },
   },
   created() {
-    this.getProducts();
-    this.productName = this.$route.path.replace('/product/', '');
-    document.title = `${this.productName}｜四分之一蛋糕工作室`;
+    const vm = this;
+    vm.getProducts();
+    vm.productName = vm.$route.path.replace('/product/', '');
+    document.title = `${vm.productName}｜四分之一蛋糕工作室`;
   },
 };
 </script>
