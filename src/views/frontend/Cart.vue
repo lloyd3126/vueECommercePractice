@@ -305,6 +305,13 @@ export default {
     },
   },
   methods: {
+    setCart() {
+      const vm = this;
+      if (vm.cartsInVuexLength === 0) {
+        return;
+      }
+      vm.$store.dispatch('setCart');
+    },
     clearAllUnpaidOrders() {
       let UnpaidOrderIds = Object.keys(this.orderStatusList)
         .map((orderId) => this.orderStatusList[orderId])
@@ -341,7 +348,7 @@ export default {
             `${message}，訂單編號為 ${orderId}`,
             'success'
           );
-          vm.$store.dispatch('getCart');
+          vm.setCart();
           vm.form = {
             user: {
               name: '',
@@ -385,7 +392,7 @@ export default {
         const { success, data, message } = response.data;
         if (success) {
           vm.$bus.$emit('message:push', message, 'success');
-          vm.$store.dispatch('getCart');
+          vm.setCart();
         } else {
           vm.$store.commit('setIsLoading', false);
           vm.$bus.$emit('message:push', message, 'danger');
@@ -395,9 +402,9 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getCart');
-    window.scrollTo(0, 0);
     const vm = this;
+    vm.setCart();
+    window.scrollTo(0, 0);
     let orderIds = localStorage.getItem('orderIds');
     if (orderIds != null && orderIds != '') {
       let orderIdArr = orderIds.split(', ');

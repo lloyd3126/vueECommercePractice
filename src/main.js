@@ -5,7 +5,7 @@ import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import 'bootstrap';
 import { ValidationProvider, ValidationObserver, localize, extend } from 'vee-validate';
-import { email, required, numeric } from 'vee-validate/dist/rules';
+import { email, required, numeric, length } from 'vee-validate/dist/rules';
 import zhTW from 'vee-validate/dist/locale/zh_TW.json';
 import Clipboard from 'v-clipboard'
 import Notify from 'vue2-notify'
@@ -27,6 +27,7 @@ Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 localize('zhTW', zhTW);
 extend('email', email);
+// extend('length', length);
 extend('required', {
   ...required,
   message: '此欄位不得為空'
@@ -35,6 +36,14 @@ extend('numeric', {
   ...numeric,
   message: '此欄位只能輸入數字'
 });
+extend('characters', {
+  validate(value, { length }) {
+    return value.length <= parseInt(length);
+  },
+  params: ['length'],
+  message: '此欄位輸入長度不得超過 {length}'
+});
+
 
 new Vue({
   router,
