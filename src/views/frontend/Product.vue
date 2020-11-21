@@ -2,6 +2,7 @@
   <div>
     <loading :active.sync="isLoading"></loading>
     <MainNavbar />
+    <Alert />
     <div class="container">
       <div class="row mb-3 justify-content-center">
         <div class="col-md-8 col-12 mt-2">
@@ -70,7 +71,7 @@
                       :class="{
                         btn: true,
                         'btn-danger': true,
-                        disabled: product.amount == 0 || false,
+                        disabled: product.amount < 1 || false,
                       }"
                       type="button"
                       id="button-addon2"
@@ -174,9 +175,11 @@
 
 <script>
 import MainNavbar from '@/components/MainNavbar';
+import Alert from '@/components/Alert';
 export default {
   components: {
     MainNavbar,
+    Alert,
   },
   data() {
     return {
@@ -188,12 +191,14 @@ export default {
     isLoading() {
       return this.$store.state.isLoading;
     },
+    cartsInVuex() {
+      return this.$store.state.cartsInVuex;
+    },
   },
   methods: {
     getProducts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      vm.$store.commit('setIsLoading', true);
       vm.$http.get(api).then((response) => {
         const { products, success } = response.data;
         if (success) {
@@ -208,13 +213,23 @@ export default {
             }
           });
         }
-        vm.$store.commit('setIsLoading', false);
       });
     },
     addCart(productId, qty) {
       const vm = this;
+      if (typeof qty !== 'number' || parseInt(qty) <= 0) {
+        return;
+      }
       vm.$store.commit('setCartsInVuexData', { productId, qty });
-      // vm.$store.dispatch('setCart');
+      vm.products.forEach((product) => {
+        if (product.id === productId) {
+          vm.$bus.$emit(
+            'message:push',
+            `將${product.category}${product.title}加入購物車`,
+            'success'
+          );
+        }
+      });
     },
   },
   created() {
@@ -222,6 +237,7 @@ export default {
     vm.getProducts();
     vm.productName = vm.$route.path.replace('/product/', '');
     document.title = `${vm.productName}｜四分之一蛋糕工作室`;
+    vm.$store.dispatch('setCart');
   },
 };
 </script>
