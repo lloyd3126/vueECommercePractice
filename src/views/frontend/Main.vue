@@ -923,6 +923,7 @@ export default {
         if (success) {
           vm.$bus.$emit('message:push', message, 'success');
           vm.$store.dispatch('getCart', { loadingEffect: false });
+          vm.$store.commit('setIsLoading', false);
         } else {
           vm.$store.commit('setIsLoading', false);
           vm.$bus.$emit('message:push', message, 'danger');
