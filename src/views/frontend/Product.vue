@@ -106,8 +106,36 @@
             前往購物車
           </button>
         </div>
+        <div class="linkBox col-md-8 col-12 mt-4">
+          <a
+            type="button"
+            class="btn btn-outline-success btn-md btn-block"
+            :href="`${publicPath}#/shop?tag=cart`"
+          >
+            結帳去
+          </a>
+        </div>
+        <div class="linkBox col-md-8 col-12 mt-4">
+          <div class="d-flex justify-content-between">
+            <a
+              class="linkToTatalProducts border rounded p-3 text-left"
+              :href="`${publicPath}#/shop`"
+            >
+              <i class="fas fa-arrow-left mr-2"></i>
+              返回商品專區
+            </a>
+
+            <a
+              class="linkToNextProduct border rounded p-3 text-right"
+              @click="linkToNextProduct"
+              >順手帶走{{ nextProductName }}
+              <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
+
     <footer class="page-footer font-small cyan darken-3 text-center mt-5">
       <!-- Footer Elements -->
       <div class="container">
@@ -183,19 +211,47 @@ export default {
   },
   data() {
     return {
+      publicPath: process.env.BASE_URL,
       products: [{ imageUrl: '' }],
       productName: '',
     };
   },
   computed: {
+    nextProductName() {
+      const vm = this;
+      let idx = vm.productsInVuex.indexOf(vm.productName) + 1;
+      if (idx === vm.productsInVuex.length) {
+        idx = 0;
+      }
+      return vm.productsInVuex[idx];
+    },
     isLoading() {
       return this.$store.state.isLoading;
     },
     cartsInVuex() {
       return this.$store.state.cartsInVuex;
     },
+    productsInVuex() {
+      const vm = this;
+      let temp = [];
+      Object.keys(vm.$store.state.products).forEach((id) => {
+        if (!temp.includes(vm.$store.state.products[id].title)) {
+          temp.push(vm.$store.state.products[id].title);
+        }
+      });
+      return temp;
+    },
   },
   methods: {
+    linkToNextProduct() {
+      const vm = this;
+      document.title = `${vm.nextProductName}｜四分之一蛋糕工作室`;
+      vm.$router.push(`/product/${vm.nextProductName}`);
+      vm.productName = vm.nextProductName;
+      vm.getProducts();
+      vm.$store.dispatch('getProducts', { loadingEffect: true });
+      window.scrollTo(0, 0);
+    },
     getProducts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
@@ -237,12 +293,21 @@ export default {
     vm.getProducts();
     vm.productName = vm.$route.path.replace('/product/', '');
     document.title = `${vm.productName}｜四分之一蛋糕工作室`;
-    vm.$store.dispatch('setCart');
+    vm.$store.dispatch('getProducts', { loadingEffect: true });
   },
 };
 </script>
 
 <style scope>
+a.linkToTatalProducts,
+a.linkToNextProduct {
+  text-decoration: none;
+  transition-duration: 0.3s;
+}
+a.linkToTatalProducts:hover,
+a.linkToNextProduct:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
 .page-footer {
   background-color: #eee;
 }

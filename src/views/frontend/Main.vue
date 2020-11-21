@@ -387,7 +387,10 @@
                             v-slot="{ invalid }"
                             ref="observer"
                           >
-                            <form @submit.prevent="useCoupon(couponCode)">
+                            <form
+                              @submit.prevent="useCoupon(couponCode)"
+                              @keyup.enter="useCoupon(couponCode)"
+                            >
                               <div class="form-group">
                                 <ValidationProvider
                                   rules="characters:10"
